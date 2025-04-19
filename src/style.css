@@ -6,6 +6,7 @@
     box-sizing: border-box;
     overflow-y: hidden;
     font-smooth: always;
+    -webkit-font-smoothing: subpixel-antialiased;
     text-rendering: optimizeLegibility;
 }
 
@@ -14,11 +15,6 @@
         font-size: min(10vw, 28px);
         font-weight: 700;
         line-height: 1.5;
-        -webkit-font-smoothing: subpixel-antialiased;
-    }
-
-    p {
-        -webkit-font-smoothing: subpixel-antialiased;
     }
 }
 
