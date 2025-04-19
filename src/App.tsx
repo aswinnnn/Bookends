@@ -3,6 +3,7 @@ import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/core";
 import Intro from "./components/Intro";
 import "./App.css";
+import Sidepanel from "./components/Sidepanel";
 
 function App() {
   const [greetMsg, setGreetMsg] = useState("");
@@ -15,6 +16,7 @@ function App() {
 
   return (
   <>
+  <Sidepanel />
   <Intro />
   </>
   );

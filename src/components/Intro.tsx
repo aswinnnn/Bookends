@@ -9,7 +9,7 @@ const Intro = () => {
                 <div className="text-center text-black p-4">
                     <h1 className="text-black mx-auto p-16px font-extrabold font-display mb-3 text-4xl md:text-5xl">Bookends</h1>
                     <div className="loBookengo self-center m-6">
-                        <img className='self-center mx-auto hover:shadow-lg w-fit md:h-[320px]' src="/src/assets/logo.svg" height={240} width={240} alt="Bookends Logo" />
+                        <img className='self-center mx-auto w-fit md:h-[320px]' src="/src/assets/logo.svg" height={240} width={240} alt="Bookends Logo" />
                     </div>
                     <div className='font-body text-[min(5vw,23px)]'>
                         <p className="font-extrabold">
@@ -104,6 +104,10 @@ const Intro = () => {
 
     const handleNext = () => {
         setCurrentSlide((prev) => (prev + 1) % slides.length);
+        if (currentSlide === slides.length - 1) {
+            // Redirect to create 
+            window.location.href = '/create';
+        }
     };
 
     const handlePrev = () => {
@@ -139,14 +143,14 @@ const Intro = () => {
                     ))}
                 </div>
             </div>
-            <div className="flex justify-center lg:justify-between gap-3 w-full max-w-3xl mt-4">
+            <div className="flex flex-col md:flex-row lg:flex-row justify-center lg:justify-between gap-3 w-full max-w-3xl mt-4">
                 <button
                     onClick={handlePrev}
-                    className="hidden lg:block bg-black text-white px-4 py-2 rounded-4xl hover:bg-gray-800 hover:cursor-pointer hover:shadow-lg hover:shadow-gray-500/50 transition-transform duration-200 hover:translate-y-[-5px]"
+                    className="hidden md:block lg:block bg-black text-white px-4 py-2 rounded-4xl hover:bg-gray-800 hover:cursor-pointer hover:shadow-lg hover:shadow-gray-500/50 transition-transform duration-200 hover:translate-y-[-5px]"
                 >
                     Previous
                 </button>
-                <div>
+                <div className='mx-auto'>
                     {slides.map((_, index) => (
                         <button
                             key={index}
@@ -157,7 +161,7 @@ const Intro = () => {
                 </div>
                 <button
                     onClick={handleNext}
-                    className="hidden lg:block bg-black text-white px-4 py-2 rounded-4xl hover:bg-gray-800 hover:cursor-pointer hover:shadow-lg hover:shadow-gray-500/50 transition-transform duration-200 hover:translate-y-[-5px]"
+                    className="mx-auto md:mx-0 lg:block bg-black text-white px-4 py-2 rounded-4xl hover:bg-gray-800 hover:cursor-pointer hover:shadow-lg hover:shadow-gray-500/50 transition-transform duration-200 ease-fluid hover:translate-y-[-5px]"
                 >
                     {currentSlide === slides.length - 1 ? 'Finish' : 'Next'}
                 </button>

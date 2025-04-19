@@ -18,5 +18,5 @@
   -webkit-user-select: none;
 }
 .titlebar-button:hover {
-  background: #5bbec3;
+  background: var(--color-secondary);
 }
