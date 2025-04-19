@@ -7,11 +7,11 @@ const Intro = () => {
         {
             content: (
                 <div className="text-center text-black p-4">
-                    <h1 className="text-black mx-auto p-16px text-4xl font-extrabold font-display mb-3">Bookends</h1>
+                    <h1 className="text-black mx-auto p-16px font-extrabold font-display mb-3 text-4xl md:text-5xl">Bookends</h1>
                     <div className="loBookengo self-center m-6">
-                        <img className='self-center mx-auto hover:shadow-lg w-fit' src="/src/assets/logo.svg" height={240} width={240} alt="Bookends Logo" />
+                        <img className='self-center mx-auto hover:shadow-lg w-fit md:h-[320px]' src="/src/assets/logo.svg" height={240} width={240} alt="Bookends Logo" />
                     </div>
-                    <div className='font-body text-xs md:text-sm lg:text-base'>
+                    <div className='font-body text-[min(5vw,23px)]'>
                         <p className="font-extrabold">
                             Life is somewhat like a book.<br />
                             Every year, month, or day is a little book of its own.
@@ -28,15 +28,17 @@ const Intro = () => {
         {
             content: (
                 <div className="text-center text-black p-4">
-                    <h2 className="text-2xl font-bold mb-3">Why Bookends?</h2>
-                    <div className='font-body text-xs md:text-sm lg:text-base'>
+                        <img className='smallyellowflower hover:animate-spin transition-transform delay-300 ease-linear ' src="/src/assets/smallyellowflower.svg" height={42} width={42} alt="Bookends Screenshot" />
+                    <h2 className="text-[min(10vw, 25px)] font-bold mb-3" id='head2'>Why Bookends?</h2>
+                    <div className='font-body text-[min(5vw,23px)]'>
                         <p>
-                            Unlike other journaling software, Bookends focuses on simplicity and mindfulness.<br/>
+                            Unlike other journaling software,<br/>Bookends focuses on simplicity and mindfulness.<br/>
                             No distractions, no unnecessary features—<span className='font-bold'>just you and your thoughts.</span>
                         </p>
                         <p><br/>
-                            It's designed to help you reflect deeply and stay consistent without forcing you into a rigid<br/> structure by making your little journals as <span className='text-amber-600 font-extrabold hover:underline'> aesthetically pleasing</span> as possible.
+                            It's designed to help you reflect deeply and stay consistent without forcing you into a rigid structure by making your journals as <span className='text-amber-600 font-extrabold hover:underline'> aesthetically pleasing</span> as possible.
                         </p>
+                        <img className='justify-self-end ml-auto hover:animate-spin transition-transform delay-300 ease-linear' src="/src/assets/orangehibiscus.svg" height={48} width={48} alt="Bookends Screenshot" />
 
                     </div>
                 </div>
@@ -45,8 +47,8 @@ const Intro = () => {
         {
             content: (
                 <div className="text-center text-black p-4">
-                    <h2 className="text-2xl font-bold mb-3">Features</h2>
-                    <div className='font-body text-xs md:text-sm lg:text-base'>
+                    <h2 className="text-[min(10vw, 45px)] font-bold mb-3">Features</h2>
+                    <div className='font-body text-[min(5vw,23px)]'>
                         <p>Bookends offers:</p>
                         <ul className="list-disc list-inside">
                             <li>Minimalist design for focused journaling</li>
@@ -69,8 +71,8 @@ const Intro = () => {
         {
             content: (
                 <div className="text-center text-black p-4">
-                    <h2 className="text-2xl font-bold mb-3">Simple, Free, and Open Source</h2>
-                    <div className='font-body text-xs md:text-sm lg:text-base'>
+                    <h2 className="text-[min(10vw,25px)] font-bold mb-3">Simple, Free, and Open Source</h2>
+                    <div className='font-body text-[min(5vw,23px)]'>
                         <p>
                             Bookends is incredibly easy to use. It's free and open source, so anyone can contribute or customize it.
                         </p>
