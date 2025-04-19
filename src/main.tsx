@@ -1,8 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { HashRouter } from "react-router";
+import { HashRouter, Routes, Route } from "react-router";
 import App from "./App";
 import Header from "./components/Header";
+import Home from "./components/home/Home";
+import Create from "./components/create/Create";
+import Intro from "./components/Intro";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -13,6 +16,12 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <Header/>
     <br />
     <App />
+    <Routes>
+      <Route path="/" element={<App />} />
+      <Route path="/home" element={<Home />} />
+      <Route path="/create" element={<Create />} />
+      <Route path="/intro" element={<Intro />} />
+    </Routes>
     </HashRouter>
   </React.StrictMode>,
 );

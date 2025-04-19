@@ -8,7 +8,7 @@ function Sidepanel() {
     <>
       {/* Toggle Button */}
       <button
-        className={`fixed top-[30px] z-50 bg-secondary text-white p-2 transition-transform duration-500 ease-in-out outline-0 ${
+        className={`fixed top-[30px] z-50 bg-bookends-secondary text-white p-2 transition-transform duration-500 ease-in-out outline-0 ${
           isOpen ? "translate-x-30 md:translate-x-60 lg:translate-x-64" : "translate-x-0"
         }`}
         onClick={() => setIsOpen(!isOpen)}
@@ -22,7 +22,7 @@ function Sidepanel() {
 
       {/* Sidepanel */}
       <div
-        className={`fixed top-[30px] left-0 h-[calc(100%-30px)] w-[40%] md:w-[240px] lg:w-[300px] bg-secondary shadow-lg z-40 transform ${
+        className={`fixed top-[30px] left-0 h-[calc(100%-30px)] w-[40%] md:w-[240px] lg:w-[300px] bg-bookends-secondary shadow-lg z-40 transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-500 ease-in-out`}
       >

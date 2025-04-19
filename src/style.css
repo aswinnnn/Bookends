@@ -33,9 +33,10 @@
     --font-body: 'Lexend Deca', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --font-mono: 'IBM Plex Mono', 'Courier New', Courier, monospace;
     --breakpoint-3xl: 120rem;
-    --color-primary: #ecfcca;
-    --color-secondary: #b1d2cb;
+    --color-bookends-primary: #ecfcca;
+    --color-bookends-secondary: #DBF99A;
     --color-bookends-gray: #77878B;
+    --color-bookends-titlebar: #192e03;
     --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
     --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
 }

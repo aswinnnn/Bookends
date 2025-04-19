@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { redirect } from '../utils';
+import { useNavigate } from 'react-router';
 
 const Intro = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
+    const navigate = useNavigate();
 
     const slides = [
         {
@@ -105,8 +108,9 @@ const Intro = () => {
     const handleNext = () => {
         setCurrentSlide((prev) => (prev + 1) % slides.length);
         if (currentSlide === slides.length - 1) {
-            // Redirect to create 
-            window.location.href = '/create';
+            // Redirect to create
+            navigate('/create');
+            console.log('Redirecting to create');
         }
     };
 
