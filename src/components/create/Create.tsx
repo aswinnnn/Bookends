@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import Sidepanel from '../Sidepanel';
 import RichTextEditor from '../common/Editor';
+import Notebook from './Notebook';
+import Home from '../home/Home';
+import Switcher from './Switcher';
 
 const Create = () => {
   const [currentDateTime, setCurrentDateTime] = useState('');
+  const [selected, setSelected] = useState<'home' | 'create'>('create');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const now = new Date();
@@ -21,26 +27,11 @@ const Create = () => {
   return (
     <>
       <Sidepanel />
-      <div className="create-container bg-bookends-primary h-full w-full flex justify-center items-start p-6">
-        <div className="notebook bg-white shadow-lg rounded-lg p-6 w-full max-w-4xl">
-          {/* Date and Time */}
-          <div className="date-time wrap-break-word text-gray-600 font-body text-sm md:text-[1.1rem]  mb-2">
-            {currentDateTime}
-          </div>
-          <hr className="border-gray-300 mb-4" />
-          {/* Title Input */}
-          <input
-            type="text"
-            className="title-input w-full bg-transparent text-bookends-text font-display text-[2rem] font-bold mb-4 p-2 pl-0 wrap-normal border-b-2 break-w border-gray-300 focus:outline-none focus:border-bookends-accent"
-            placeholder="A title for the day..."
-          />
-          {/* Writing Area */}
-          <RichTextEditor />
-          {/* <textarea
-            className="writing-area w-full h-[60vh] bg-bookends-secondary text-bookends-text font-body text-lg p-4 rounded-lg wrap-anywhere shadow-inner resize-none focus:outline-none focus:ring-2 focus:ring-bookends-accent"
-            placeholder="Start writing your thoughts here..."
-          ></textarea> */}
-        </div>
+      <div className="bg-no-repeat bg-cover create-container bg-[url(/src/assets/4.jpeg)] h-full w-full flex flex-col items-center py-2 px-6">
+        {/* Navigation Buttons */}
+        <Switcher setSelected={setSelected} />
+        {/* Notebook Section */}
+        {selected === 'home' ? <Home/> : <Notebook currentDateTime={currentDateTime} />}
       </div>
     </>
   );
