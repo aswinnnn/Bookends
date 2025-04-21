@@ -10,7 +10,7 @@
     "tauri": "tauri"
   },
   "dependencies": {
-    "@heroicons/react": "^1.0.6",
+    "@heroicons/react": "^2.2.0",
     "@tailwindcss/vite": "^4.1.4",
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-opener": "^2",
@@ -18,10 +18,14 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router": "^7.5.1",
+    "slate": "^0.112.0",
+    "slate-history": "^0.113.1",
+    "slate-react": "^0.112.1",
     "tailwindcss": "^4.1.4"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",
+    "@types/is-hotkey": "^0.1.10",
     "@types/react": "^18.3.1",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",

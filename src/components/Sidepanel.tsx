@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { HomeIcon, InformationCircleIcon, StarIcon, PhoneIcon, ChevronDoubleLeftIcon, ChevronDoubleRightIcon } from "@heroicons/react/outline";
+import { HomeIcon, InformationCircleIcon, StarIcon, PhoneIcon, ChevronDoubleLeftIcon, ChevronDoubleRightIcon } from "@heroicons/react/24/outline";
 
 function Sidepanel() {
   const [isOpen, setIsOpen] = useState(false);

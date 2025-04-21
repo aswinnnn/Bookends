@@ -1,4 +1,4 @@
-import { BookOpenIcon } from "@heroicons/react/outline";
+import { BookOpenIcon } from "@heroicons/react/24/outline";
 
 const Header = () => {
     // This is a custom window decoration for the Tauri application
