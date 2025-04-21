@@ -12,6 +12,7 @@ import {
   Editable,
   RenderElementProps,
   RenderLeafProps,
+  RenderPlaceholderProps,
   Slate,
   useSlate,
   withReact,
@@ -89,6 +90,14 @@ const RichTextEditor = () => {
         renderElement={renderElement}
         renderLeaf={renderLeaf}
         placeholder="Well, what's on your mind?"
+        renderPlaceholder={({
+          children,
+          attributes,
+        }: RenderPlaceholderProps) => (
+          <div {...attributes}>
+            <p className='py-4'>{children}</p>
+          </div>
+        )}
         spellCheck
         autoFocus
         className='w-full h-[73vh] bg-bookends-secondary text-bookends-text font-body text-lg py-4 px-2 rounded-lg wrap-anywhere shadow-inner resize-none focus:outline-none focus:ring-0 focus:ring-bookends-accent'

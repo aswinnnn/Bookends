@@ -32,7 +32,7 @@ const Create = () => {
           <input
             type="text"
             className="title-input w-full bg-transparent text-bookends-text font-display text-[2rem] font-bold mb-4 p-2 pl-0 wrap-normal border-b-2 break-w border-gray-300 focus:outline-none focus:border-bookends-accent"
-            placeholder="A title for the day"
+            placeholder="A title for the day..."
           />
           {/* Writing Area */}
           <RichTextEditor />
