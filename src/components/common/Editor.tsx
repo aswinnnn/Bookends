@@ -88,7 +88,7 @@ const RichTextEditor = () => {
       <Editable
         renderElement={renderElement}
         renderLeaf={renderLeaf}
-        placeholder="Enter some rich text…"
+        placeholder="Well, what's on your mind?"
         spellCheck
         autoFocus
         className='w-full h-[73vh] bg-bookends-secondary text-bookends-text font-body text-lg py-4 px-2 rounded-lg wrap-anywhere shadow-inner resize-none focus:outline-none focus:ring-0 focus:ring-bookends-accent'
