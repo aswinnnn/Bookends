@@ -1,0 +1,18 @@
+{
+  "general": {
+    "notifications": true,
+    "autoSave": false
+  },
+  "appearance": {
+    "themeColor": "#F9E0B2",
+    "darkMode": true
+  },
+  "privacy": {
+    "encryption": true,
+    "requirePassword": false
+  },
+  "misc": {
+    "betaFeatures": false,
+    "sendUsageData": true
+  }
+}

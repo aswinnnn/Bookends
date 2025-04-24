@@ -51,32 +51,32 @@ const RichTextEditor = () => {
     []
   )
   const editor = useMemo(() => withHistory(withReact(createEditor())), [])
-  let timeoutId = 0;
-  let prevJournal = '';
+  let timeoutId = 0
+  let prevJournal = ''
 
   const onChange = (value: Descendant[]) => {
     // Debounce writing at least 1 second
-    // to avoid too many writes to the consol
     clearTimeout(timeoutId)
     timeoutId = setTimeout(() => {
       if (JSON.stringify(value) === prevJournal) {
         return
       }
-      prevJournal = JSON.stringify(value);
-      console.log('', JSON.stringify(value));
+      prevJournal = JSON.stringify(value)
+      console.log('', JSON.stringify(value))
     }, 1000)
   }
 
   return (
     <Slate editor={editor} initialValue={initialValue} onChange={onChange}>
-      <Toolbar className="flex-wrap z-0">
-        <MarkButton format="bold" Icon={<BoldIcon className='h-4 w-4 md:h-5 md:w-5' />} />
+      {/* Toolbar */}
+      <Toolbar className="flex-wrap z-0 glass-blur bg-gradient-to-br from-white/30 to-white/10 dark:from-black/30 dark:to-black/10 backdrop-blur-md border border-white/20 dark:border-black/20 rounded-lg shadow-md p-2 mb-4">
+        <MarkButton format="bold" Icon={<BoldIcon className="h-4 w-4 md:h-5 md:w-5 " />} />
         <MarkButton format="italic" Icon={<ItalicIcon className="h-4 w-4 md:h-5 md:w-5 " />} />
         <MarkButton format="underline" Icon={<UnderlineIcon className="h-4 w-4 md:h-5 md:w-5 " />} />
         <MarkButton format="code" Icon={<CodeBracketIcon className="h-4 w-4 md:h-5 md:w-5 " />} />
         <BlockButton format="heading-one" Icon={<H1Icon className="h-4 w-4 md:h-5 md:w-5 " />} />
         <BlockButton format="heading-two" Icon={<H2Icon className="h-4 w-4 md:h-5 md:w-5 " />} />
-        <BlockButton format="block-quote" Icon={<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon" fill="none" className="size-6 h-3 w-3 md:h-5 md:w-5">
+        <BlockButton format="block-quote" Icon={<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true" data-slot="icon" fill="none" className="h-4 w-4 md:h-5 md:w-5 ">
           <path strokeLinecap="round" strokeLinejoin="round" d="M16.25 15.5c-1.837-.794-2.5-1.5-2.5-3.5S15 8.75 17 8.75 20.25 10 20.25 12c0 3.5-1 4.75-5 7.25 1-1.75 1-2.25 1-3.75zm-10 0c-1.837-.794-2.5-1.5-2.5-3.5S5 8.75 7 8.75 10.25 10 10.25 12c0 3.5-1 4.75-5 7.25 1-1.75 1-2.25 1-3.75z"></path>
         </svg>} />
         <BlockButton format="numbered-list" Icon={<NumberedListIcon className="h-4 w-4 md:h-5 md:w-5 " />} />
@@ -86,21 +86,20 @@ const RichTextEditor = () => {
         <BlockButton format="right" Icon={<Bars3BottomRightIcon className="h-4 w-4 md:h-5 md:w-5 " />} />
         <BlockButton format="justify" Icon={<Bars4Icon className="h-4 w-4 md:h-5 md:w-5 " />} />
       </Toolbar>
+
+      {/* Editable Area */}
       <Editable
         renderElement={renderElement}
         renderLeaf={renderLeaf}
         placeholder="Well, what's on your mind?"
-        renderPlaceholder={({
-          children,
-          attributes,
-        }: RenderPlaceholderProps) => (
+        renderPlaceholder={({ children, attributes }: RenderPlaceholderProps) => (
           <div {...attributes}>
-            <p className='py-4'>{children}</p>
+            <p className="py-4">{children}</p>
           </div>
         )}
         spellCheck
         autoFocus
-        className='w-full glass-blur bg-black/10 text-bookends-text font-body text-lg py-4 px-2 rounded-lg wrap-anywhere shadow-inner resize-none focus:outline-none focus:ring-0 focus:ring-bookends-accent'
+        className="w-full glass-blur bg-gradient-to-br from-white/30 to-white/10 dark:from-black/30 dark:to-black/10 text-bookends-text dark:text-gray-200 font-body text-lg py-4 px-2 rounded-lg shadow-inner resize-none focus:outline-none focus:ring-2 focus:ring-bookends-accent/70 dark:focus:ring-bookends-accent-light"
         onKeyDown={(event: KeyboardEvent<HTMLDivElement>) => {
           for (const hotkey in HOTKEYS) {
             if (isHotkey(hotkey, event as any)) {
@@ -321,38 +320,125 @@ const isAlignElement = (
 
 const initialValue: Descendant[] = [
   {
-    type: 'paragraph',
-    children: [
-      { text: 'This is editable ' },
-      { text: 'rich', bold: true },
-      { text: ' text, ' },
-      { text: 'much', italic: true },
-      { text: ' better than a ' },
-      { text: '<textarea>', code: true },
-      { text: '!' },
-    ],
+	"type": "paragraph",
+	"align": "center",
+	"children": [
+	  {
+		"text": "Time it was, it was what a time it was, it was",
+		"italic": true
+	  }
+	]
   },
   {
-    type: 'paragraph',
-    children: [
-      {
-        text: "Since it's rich text, you can do things like turn a selection of text ",
-      },
-      { text: 'bold', bold: true },
-      {
-        text: ', or add a semantically rendered block quote in the middle of the page, like this:',
-      },
-    ],
+	"type": "paragraph",
+	"align": "center",
+	"children": [
+	  {
+		"text": "A time of innocence, ",
+		"italic": true
+	  }
+	]
   },
   {
-    type: 'block-quote',
-    children: [{ text: 'A wise quote.' }],
+	"type": "paragraph",
+	"align": "center",
+	"children": [
+	  {
+		"text": "A time of confidences.",
+		"italic": true
+	  }
+	]
   },
   {
-    type: 'paragraph',
-    align: 'center',
-    children: [{ text: 'Try it out for yourself!' }],
+	"type": "paragraph",
+	"align": "center",
+	"children": [
+	  {
+		"italic": true,
+		"text": ""
+	  }
+	]
   },
+  {
+	"type": "paragraph",
+	"align": "center",
+	"children": [
+	  {
+		"text": "Long ago, it must be,",
+		"italic": true
+	  }
+	]
+  },
+  {
+	"type": "paragraph",
+	"align": "center",
+	"children": [
+	  {
+		"text": "I have a photograph,",
+		"italic": true
+	  }
+	]
+  },
+  {
+	"type": "paragraph",
+	"align": "center",
+	"children": [
+	  {
+		"text": "Preserve your memories,",
+		"italic": true
+	  }
+	]
+  },
+  {
+	"type": "paragraph",
+	"align": "center",
+	"children": [
+	  {
+		"italic": true,
+		"text": ""
+	  }
+	]
+  },
+  {
+	"type": "paragraph",
+	"align": "center",
+	"children": [
+	  {
+		"text": "they're all that's left you.",
+		"italic": true
+	  }
+	]
+  },
+  {
+	"type": "paragraph",
+	"align": "center",
+	"children": [
+	  {
+		"italic": true,
+		"text": "",
+		"code": true
+	  }
+	]
+  },
+  {
+	"type": "paragraph",
+	"align": "left",
+	"children": [
+	  {
+		"text": "               - \"Bookends (Reprise)\", ",
+		"code": true
+	  },
+	  {
+		"text": "Simon & Garfunkel",
+		"italic": true,
+		"code": true
+	  },
+	  {
+		"text": ", 1967",
+		"code": true
+	  }
+	]
+  }
 ]
 
 export default RichTextEditor
