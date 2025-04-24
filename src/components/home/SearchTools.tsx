@@ -43,10 +43,10 @@ const SearchTools: React.FC<SearchToolsProps> = ({ onSearchChange, onSort, onFil
           value={query}
           onChange={handleSearchChange}
           placeholder="Search journals..."
-          className="glass-blur w-full rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm text-white placeholder-white/70 shadow-md backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-white/20"
+          className="glass-blur bg-gradient-to-br from-white/30 to-white/20 backdrop-blur-md border border-white/10 w-full rounded-full bg-white/10 px-4 py-2 text-sm text-white placeholder-white/70 shadow-md focus:outline-none focus:ring-2 focus:ring-white/20"
         />
         {showSuggestions && (
-          <ul className="glass-blur z-50 absolute left-0 top-full mt-2 w-full max-h-64 overflow-y-auto rounded-xl border border-white/10 bg-white/10 p-2 shadow-lg backdrop-blur-md">
+          <ul className="glass-blur bg-gradient-to-br from-white/30 to-white/20 backdrop-blur-md border border-white/10 z-50 absolute left-0 top-full mt-2 w-full max-h-64 overflow-y-auto rounded-xl bg-white/10 p-2 shadow-lg">
             {suggestions.map((suggestion, index) => (
               <li
                 key={index}
@@ -78,7 +78,7 @@ const SearchTools: React.FC<SearchToolsProps> = ({ onSearchChange, onSort, onFil
 
       {/* Sort Dropdown */}
       <Menu as="div" className="glass-blur relative z-50">
-        <Menu.Button className="flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm text-white shadow-md backdrop-blur-md hover:bg-white/20">
+        <Menu.Button className="flex bg-gradient-to-br from-white/30 to-white/20 backdrop-blur-md border border-white/10 items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm text-white shadow-md hover:bg-white/20">
           <ArrowsUpDownIcon className="h-5 w-5" />
           Sort
           <ChevronDownIcon className="h-4 w-4" />
@@ -102,8 +102,8 @@ const SearchTools: React.FC<SearchToolsProps> = ({ onSearchChange, onSort, onFil
       </Menu>
 
       {/* Filter Dropdown */}
-      <Menu as="div" className="glass-blur relative z-50 font-extrabold">
-        <Menu.Button className="flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm text-white shadow-md backdrop-blur-md hover:bg-white/20">
+      <Menu as="div" className="glass-blur relative z-50">
+        <Menu.Button className="flex bg-gradient-to-br from-white/30 to-white/20 backdrop-blur-md border border-white/10 items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm text-white shadow-md hover:bg-white/20">
           <FunnelIcon className="h-5 w-5" />
           Filter
           <ChevronDownIcon className="h-4 w-4" />
@@ -116,7 +116,7 @@ const SearchTools: React.FC<SearchToolsProps> = ({ onSearchChange, onSort, onFil
                   type="checkbox"
                   checked={selectedTags.includes(tag)}
                   onChange={() => handleTagToggle(tag)}
-                  className="h-4 w-4 rounded border-white/20 bg-white/10 text-white focus:ring-2 focus:ring-white/20"
+                  className="h-4 w-4 accent-bookends-accent rounded border-white/20 bg-white/10 text-white focus:ring-2 focus:ring-white/20"
                 />
                 <span className="text-xs md:text-sm text-white/80">{tag}</span>
               </div>

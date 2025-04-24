@@ -1,21 +1,25 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { Routes, Route, useNavigate, HashRouter } from "react-router";
+import { Routes, Route, useNavigate } from "react-router";
 import Intro from "./components/Intro";
 import Create from "./components/create/Create";
 import Sidepanel from "./components/Sidepanel";
+import { ThemeProvider } from "./ThemeContext";
 import "./App.css";
 import Settings from "./components/settings/Settings";
 import About from "./components/about/About";
+import { set } from "date-fns";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null); // Use `null` to indicate loading state
   const navigate = useNavigate();
+  const wallpaperUrl = "/src/assets/6.jpg";
+  const [selected, setSelected] = useState<'home' | 'create'>('create');
 
   // Check login status on app load
   useEffect(() => {
     const checkLoginStatus = async () => {
-      return setIsLoggedIn(false);
+      return setIsLoggedIn(false); // Set to null while checking
       try {
         const response: boolean = await invoke("check_login_status");
         setIsLoggedIn(response);
@@ -32,20 +36,25 @@ function App() {
   useEffect(() => {
     if (isLoggedIn === null) return; // Wait until login status is determined
 
-    isLoggedIn ? navigate('/create') : navigate('/intro');
-    console.log('bitch ahh im in this bitch')
-
+    isLoggedIn ? navigate("/create") : navigate("/intro");
   }, [isLoggedIn]);
 
   return (
-    <div className="app-container">
-      <Routes>
-        <Route path="/intro" element={<Intro />} />
-        <Route path="/create" element={<Create />} />
-        <Route path="/settings" element={<Settings/>}/>
-        <Route path="/about" element={<About/>}/>
-      </Routes>
-    </div>
+    <ThemeProvider>
+      <div
+        className="app-container wallpaper bg-no-repeat bg-center bg-cover"
+        style={{
+          backgroundImage: `url(${wallpaperUrl})`,
+        }}
+      >
+        <Routes>
+          <Route path="/intro" element={<Intro />} />
+          <Route path="/create" element={<Create selected={selected} setSelected={setSelected} />} />
+          <Route path="/settings" element={<Settings setSelected={setSelected}/>} />
+          <Route path="/about" element={<About setSelected={setSelected}/>} />
+        </Routes>
+      </div>
+    </ThemeProvider>
   );
 }
 

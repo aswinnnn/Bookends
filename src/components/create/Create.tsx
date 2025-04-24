@@ -8,11 +8,14 @@ import Switcher from './Switcher';
 import About from '../about/About';
 import Settings from '../settings/Settings';
 
-const Create = () => {
+interface CreateProps {
+  selected: 'home' | 'create';
+  setSelected: React.Dispatch<React.SetStateAction<'home' | 'create'>>;
+}
+
+const Create: React.FC<CreateProps> = ({selected, setSelected}) => {
   const [currentDateTime, setCurrentDateTime] = useState('');
-  const [selected, setSelected] = useState<'home' | 'create'>('create');
   const navigate = useNavigate();
-  const wallpaperUrl = '/src/assets/6.jpg';
 
   useEffect(() => {
     const now = new Date();
@@ -31,10 +34,7 @@ const Create = () => {
     <>
     <Sidepanel setSelected={setSelected} />
       <div
-        className="wallpaper h-full w-full bg-no-repeat bg-center bg-cover"
-        style={{
-          backgroundImage: `url(${wallpaperUrl})`,
-        }}
+        className="h-full w-full "
       >
         <div className="create-container h-full w-full flex flex-col items-center py-2 px-6">
           {/* Navigation Buttons */}
@@ -43,10 +43,6 @@ const Create = () => {
           {selected === 'home' ? <Home /> : <Notebook currentDateTime={currentDateTime} />}
         </div>
       </div>
-      <Routes>
-        <Route path="/settings" element={<Settings setSelected={setSelected}/>}/>
-        <Route path="/about" element={<About setSelected={setSelected}/>}/>
-      </Routes>
     </>
   );
 };
