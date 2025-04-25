@@ -1,20 +1,22 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Switch } from "@headlessui/react";
 import { HomeIcon, PlusCircleIcon, InformationCircleIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
-import { redirect, redirectDocument, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import { useTheme } from "../ThemeContext";
-import { set } from "date-fns";
 
 interface SidepanelProps {
   setSelected: React.Dispatch<React.SetStateAction<"home" | "create">>;
 }
 
-const Sidepanel: React.FC<SidepanelProps> = ({setSelected}) => {
+const Sidepanel: React.FC<SidepanelProps> = ({ setSelected }) => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const sidepanelRef = useRef<HTMLDivElement>(null);
   const toggleButtonRef = useRef<HTMLButtonElement>(null);
-  const { theme, toggleTheme } = useTheme();
+  const { lightTheme, darkTheme, themeMode, toggleThemeMode } = useTheme();
+
+  // Determine the current theme based on themeMode
+  const currentTheme = themeMode === "light" ? lightTheme : darkTheme;
 
   // Close sidepanel when clicking outside
   useEffect(() => {
@@ -45,9 +47,13 @@ const Sidepanel: React.FC<SidepanelProps> = ({setSelected}) => {
       {/* Glassmorphic Toggle Button */}
       <button
         ref={toggleButtonRef}
-        className={`fixed glass-blur top-[40px] bg-gradient-to-br from-white/30 to-white/20 dark:from-black/30 dark:to-black/20 backdrop-blur-md border border-white/10 dark:border-black/20 z-50 flex items-center justify-center h-12 w-12 rounded-full shadow-lg transition-all duration-500 ease-in-out ${
+        className={`fixed glass-blur top-[40px] z-50 flex items-center justify-center h-12 w-12 rounded-full shadow-lg transition-all duration-500 ease-in-out ${
           isOpen ? "left-[70%] md:left-[240px] lg:left-[300px]" : "left-2"
         }`}
+        style={{
+          background: `linear-gradient(to bottom right, ${currentTheme.secondary}80, ${currentTheme.secondary}50)`,
+          border: `1px solid ${themeMode === "dark" ? currentTheme.primary : currentTheme.secondary}`,
+        }}
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className="text-white dark:text-gray-300 text-lg font-bold">{isOpen ? "←" : "☰"}</span>
@@ -56,14 +62,28 @@ const Sidepanel: React.FC<SidepanelProps> = ({setSelected}) => {
       {/* Sidepanel */}
       <div
         ref={sidepanelRef}
-        className={`fixed glass-blur bg-gradient-to-br from-white/30 to-white/20 dark:from-black/30 dark:to-black/20 backdrop-blur-md border border-white/10 dark:border-black/20 top-[30px] left-0 h-[calc(100%-30px)] w-[70%] md:w-[240px] lg:w-[360px] shadow-lg z-40 transform ${
+        className={`fixed glass-blur top-[30px] left-0 h-[calc(100%-30px)] w-[70%] md:w-[240px] lg:w-[360px] shadow-lg z-40 transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-500 ease-in-out`}
+        style={{
+          background: `linear-gradient(to bottom right, ${currentTheme.secondary}80, ${currentTheme.secondary}50)`,
+          border: `1px solid ${themeMode === "dark" ? currentTheme.primary : currentTheme.secondary}`,
+        }}
       >
         {/* Profile Header */}
-        <div className="p-4 border-b border-white/20 dark:border-black/30">
+        <div
+          className="p-4 border-b"
+          style={{
+            borderColor: themeMode === "dark" ? currentTheme.primary : currentTheme.secondary,
+          }}
+        >
           <div className="flex items-center gap-4">
-            <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold">
+            <div
+              className="h-12 w-12 rounded-full flex items-center justify-center text-white font-bold"
+              style={{
+                background: `linear-gradient(to bottom right, ${currentTheme.accent}, ${currentTheme.primary})`,
+              }}
+            >
               A
             </div>
             <div>
@@ -78,52 +98,63 @@ const Sidepanel: React.FC<SidepanelProps> = ({setSelected}) => {
           <ul className="space-y-4">
             <li
               className="flex items-center gap-3 hover:bg-white/20 dark:hover:bg-black/20 p-2 rounded-lg cursor-pointer transition"
-              onClick={() => {setSelected("home");navigate("/create")}}
+              onClick={() => {
+                setSelected("home");
+                navigate("/create");
+              }}
             >
-              <HomeIcon className="h-6 w-6 text-white dark:text-gray-300" />
+              <HomeIcon className="h-6 w-6" style={{ color: currentTheme.accent }} />
               <span className="text-white dark:text-gray-300 text-sm font-medium">Home</span>
             </li>
             <li
               className="flex items-center gap-3 hover:bg-white/20 dark:hover:bg-black/20 p-2 rounded-lg cursor-pointer transition"
-              onClick={() => {setSelected("create");navigate("/create")}} 
+              onClick={() => {
+                setSelected("create");
+                navigate("/create");
+              }}
             >
-              <PlusCircleIcon className="h-6 w-6 text-white dark:text-gray-300" />
+              <PlusCircleIcon className="h-6 w-6" style={{ color: currentTheme.accent }} />
               <span className="text-white dark:text-gray-300 text-sm font-medium">Create</span>
             </li>
             <li
               className="flex items-center gap-3 hover:bg-white/20 dark:hover:bg-black/20 p-2 rounded-lg cursor-pointer transition"
               onClick={() => navigate("/about")}
             >
-              <InformationCircleIcon className="h-6 w-6 text-white dark:text-gray-300" />
+              <InformationCircleIcon className="h-6 w-6" style={{ color: currentTheme.accent }} />
               <span className="text-white dark:text-gray-300 text-sm font-medium">About</span>
             </li>
             <li
               className="flex items-center gap-3 hover:bg-white/20 dark:hover:bg-black/20 p-2 rounded-lg cursor-pointer transition"
               onClick={() => navigate("/settings")}
             >
-              <Cog6ToothIcon className="h-6 w-6 text-white dark:text-gray-300" />
+              <Cog6ToothIcon className="h-6 w-6" style={{ color: currentTheme.accent }} />
               <span className="text-white dark:text-gray-300 text-sm font-medium">Settings</span>
             </li>
           </ul>
         </div>
 
         {/* Dark Mode Switch */}
-        <div className="p-4 border-t border-white/20 dark:border-black/30">
+        <div
+          className="p-4 border-t"
+          style={{
+            borderColor: themeMode === "dark" ? currentTheme.primary : currentTheme.secondary,
+          }}
+        >
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-white dark:text-gray-300">Dark Mode</span>
             <Switch
-              checked={theme === "light"}
-              onChange={toggleTheme}
+              checked={themeMode === "dark"}
+              onChange={toggleThemeMode}
               className={`${
-                theme === "dark" ? "bg-blue-500" : "bg-gray-300"
+                themeMode === "dark" ? "bg-blue-500" : "bg-gray-300"
               } relative inline-flex h-6 w-12 items-center rounded-full transition`}
             >
               <span
                 className={`${
-                  theme === "dark" ? "translate-x-6" : "translate-x-1"
+                  themeMode === "dark" ? "translate-x-6" : "translate-x-1"
                 } inline-block h-4 w-4 transform rounded-full bg-white transition`}
               />
-              <span className="absolute left-1 text-xs">{theme === "dark" ? "🌙" : "☀️"}</span>
+              <span className="absolute left-1 text-xs">{themeMode === "dark" ? "🌙" : "☀️"}</span>
             </Switch>
           </div>
         </div>

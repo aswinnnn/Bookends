@@ -4,7 +4,7 @@ import { Routes, Route, useNavigate } from "react-router";
 import Intro from "./components/Intro";
 import Create from "./components/create/Create";
 import Sidepanel from "./components/Sidepanel";
-import { ThemeProvider } from "./ThemeContext";
+import { ThemeProvider, useTheme } from "./ThemeContext";
 import "./App.css";
 import Settings from "./components/settings/Settings";
 import About from "./components/about/About";
@@ -13,8 +13,8 @@ import { set } from "date-fns";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null); // Use `null` to indicate loading state
   const navigate = useNavigate();
-  const wallpaperUrl = "/src/assets/6.jpg";
   const [selected, setSelected] = useState<'home' | 'create'>('create');
+  const {themeMode, lightTheme, darkTheme, loadTheme} = useTheme();
 
   // Check login status on app load
   useEffect(() => {
@@ -40,13 +40,14 @@ function App() {
   }, [isLoggedIn]);
 
   return (
-    <ThemeProvider>
       <div
-        className="app-container wallpaper bg-no-repeat bg-center bg-cover"
-        style={{
-          backgroundImage: `url(${wallpaperUrl})`,
-        }}
-      >
+        className={`app-container wallpaper bg-no-repeat bg-center bg-cover ${
+          themeMode === "light" ? "bg-[lightTheme.wallpaperImage]" : "bg-[darkTheme.wallpaperImage]"
+        } ${themeMode === "light" ? "bg-bookends-primary" : "bg-bookends-dark-primary"
+        } ${themeMode === "light" ? "text-bookends-text" : "text-bookends-dark-text"
+        } ${themeMode === "light" ? "border-bookends-secondary" : "border-bookends-dark-secondary"
+        } ${themeMode === "light" ? "shadow-light" : "shadow-dark"
+        } ${themeMode === "dark" ? "dark" : "light"}`}>
         <Routes>
           <Route path="/intro" element={<Intro />} />
           <Route path="/create" element={<Create selected={selected} setSelected={setSelected} />} />
@@ -54,7 +55,6 @@ function App() {
           <Route path="/about" element={<About setSelected={setSelected}/>} />
         </Routes>
       </div>
-    </ThemeProvider>
   );
 }
 

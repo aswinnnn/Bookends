@@ -21,6 +21,12 @@
   min-width: 100vw;
 
 }
+.tag-input:empty::before {
+  content: attr(data-placeholder);
+  color: var(--color-gray-700);
+  pointer-events: none;
+}
+
 @layer base {
     h2 {
         font-size: min(10vw, 28px);
@@ -63,6 +69,11 @@
     --color-bookends-gray: #77878B;
     --color-bookends-titlebar: #192e03;
     --color-bookends-accent: #F9E0B2;
+    --color-bookends-dark-primary: #ecfcca;
+    --color-bookends-dark-secondary: #DBF99A;
+    --color-bookends-dark-gray: #77878B;
+    --color-bookends-dark-titlebar: #192e03;
+    --color-bookends-dark-accent: #F9E0B2;
     --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
     --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
 }
