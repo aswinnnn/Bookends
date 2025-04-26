@@ -32,7 +32,6 @@ const sampleJournals = [
     content: "Discovered a beautiful hiking trail just outside the city. The way the light filtered through the canopy created the most enchanting patterns...",
     createdAt: new Date("2024-04-19T12:00:00"),
     lastEdited: new Date("2024-04-20T08:00:00"),
-    backgroundImage: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e",
     tags: ["adventure", "nature", "hiking"]
   },
   {

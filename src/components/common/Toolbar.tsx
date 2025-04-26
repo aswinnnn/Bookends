@@ -1,5 +1,6 @@
 import React, { PropsWithChildren, ReactNode, Ref } from 'react';
 import ReactDOM from 'react-dom';
+import { useTheme } from '../../ThemeContext';
 
 interface BaseProps {
   className?: string;
@@ -16,21 +17,23 @@ export const Button = React.forwardRef<HTMLSpanElement, Omit<
   (
     { className = '', active, reversed, ...props },
     ref
-  ) => (
+  ) => {
+    const {themeMode} = useTheme();
+
+    return (
     <span
       {...props}
       ref={ref}
-      className={`w-fit m-2 cursor-pointer ${
-        reversed
+      className={`w-fit m-2 p-1 rounded-md cursor-pointer ${reversed
           ? active
             ? 'text-white'
             : 'text-gray-400'
           : active
-          ? 'text-black'
-          : 'text-gray-300'
-      } ${className}`}
+            ? 'text-black'
+            : 'text-gray-300'
+        } ${themeMode === "light" ? "bg-bookends-accent/20":"bg-bookends-dark-accent/20"} ${className}`}
     />
-  )
+  )}
 );
 
 // export const Icon = React.forwardRef(

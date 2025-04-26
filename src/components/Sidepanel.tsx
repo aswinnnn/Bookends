@@ -146,13 +146,13 @@ const Sidepanel: React.FC<SidepanelProps> = ({ setSelected }) => {
               checked={themeMode === "dark"}
               onChange={toggleThemeMode}
               className={`${
-                themeMode === "dark" ? "bg-blue-500" : "bg-gray-300"
+                themeMode === "dark" ? "bg-bookends-dark-accent/70" : "bg-bookends-accent/70"
               } relative inline-flex h-6 w-12 items-center rounded-full transition`}
             >
               <span
                 className={`${
                   themeMode === "dark" ? "translate-x-6" : "translate-x-1"
-                } inline-block h-4 w-4 transform rounded-full bg-white transition`}
+                } inline-block h-4 w-4 transform rounded-full bg-amber-50 transition`}
               />
               <span className="absolute left-1 text-xs">{themeMode === "dark" ? "🌙" : "☀️"}</span>
             </Switch>

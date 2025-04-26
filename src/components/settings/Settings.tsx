@@ -115,7 +115,7 @@ const Settings: React.FC<SettingsProps> = ({ setSelected }) => {
                   onClick={() => setActiveTab(tab as any)}
                   className={`px-4 py-2 rounded-lg transition-all duration-300 ${
                     activeTab === tab
-                      ? "bg-bookends-accent text-black"
+                      ?  themeMode === "light" ? "bg-bookends-accent text-black" :"bg-bookends-dark-accent text-black"
                       : "bg-transparent text-white hover:bg-white/20 dark:hover:bg-black/20"
                   }`}
                 >
@@ -129,7 +129,7 @@ const Settings: React.FC<SettingsProps> = ({ setSelected }) => {
           <div className="glass-blur bg-gradient-to-br from-white/30 to-white/10 dark:from-black/30 dark:to-black/10 backdrop-blur-md border border-white/20 dark:border-black/20 rounded-xl shadow-lg p-6">
             {activeTab === "appearance" && (
               <div>
-                <h2 className="text-2xl font-bold text-bookends-accent mb-4 text-center">Appearance Settings</h2>
+                <h2 className={`text-2xl font-bold rounded-full mb-4 text-center`}>Appearance Settings</h2>
                 <div className="space-y-6">
                   {/* Light Theme Colors */}
                   <div>
@@ -205,11 +205,11 @@ const Settings: React.FC<SettingsProps> = ({ setSelected }) => {
                   <div className="flex items-center justify-between mt-6">
                     <button
                       onClick={exportTheme}
-                      className="px-4 py-2 bg-bookends-accent text-black rounded-lg shadow-md hover:bg-bookends-accent/80"
+                      className={`px-4 py-2 ${themeMode === "light" ? "bg-bookends-accent" : "bg-bookends-dark-accent"} text-black rounded-lg shadow-md hover:bg-bookends-accent/80`}
                     >
                       Export Theme
                     </button>
-                    <label className="px-4 py-2 bg-bookends-accent text-black rounded-lg shadow-md hover:bg-bookends-accent/80 cursor-pointer">
+                    <label className={`px-4 py-2 ${themeMode === "light" ? "bg-bookends-accent" : "bg-bookends-dark-accent" } text-black rounded-lg shadow-md hover:bg-bookends-accent/80 cursor-pointer`}>
                       Import Theme
                       <input
                         type="file"
