@@ -1,20 +1,18 @@
-import { SetStateAction, useEffect, useState } from "react";
+import {useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Routes, Route, useNavigate } from "react-router";
 import Intro from "./components/Intro";
 import Create from "./components/create/Create";
-import Sidepanel from "./components/Sidepanel";
-import { ThemeProvider, useTheme } from "./ThemeContext";
+import { useTheme } from "./ThemeContext";
 import "./App.css";
 import Settings from "./components/settings/Settings";
 import About from "./components/about/About";
-import { set } from "date-fns";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null); // Use `null` to indicate loading state
   const navigate = useNavigate();
   const [selected, setSelected] = useState<'home' | 'create'>('create');
-  const {themeMode, lightTheme, darkTheme, loadTheme} = useTheme();
+  const {themeMode} = useTheme();
 
   // Check login status on app load
   useEffect(() => {

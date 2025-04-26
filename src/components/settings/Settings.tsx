@@ -7,7 +7,7 @@ interface SettingsProps {
 }
 
 const Settings: React.FC<SettingsProps> = ({ setSelected }) => {
-  const { lightTheme, darkTheme, updateTheme, loadTheme, themeMode, toggleThemeMode } = useTheme();
+  const { lightTheme, darkTheme, updateTheme, themeMode } = useTheme();
   const [activeTab, setActiveTab] = useState<"general" | "appearance" | "privacy" | "misc">("appearance");
   const [localLightTheme, setLocalLightTheme] = useState<Theme>(lightTheme);
   const [localDarkTheme, setLocalDarkTheme] = useState<Theme>(darkTheme);

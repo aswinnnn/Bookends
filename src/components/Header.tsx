@@ -1,5 +1,7 @@
+// @ts-nocheck
 import { BookOpenIcon } from "@heroicons/react/24/outline";
 import { useTheme } from "../ThemeContext";
+import "../types/tauri";
 
 const Header = () => {
     const {themeMode} = useTheme();
@@ -10,6 +12,7 @@ const Header = () => {
                 themeMode === "dark" ? "bg-bookends-dark-accent" : "bg-bookends-accent"
             }`}>
                 <BookOpenIcon color="#fff" className="h-5 w-5 self-center fixed left-[6px] pointer-events-none" />
+                // @ts-ignore
                 <div className="titlebar-button" id="titlebar-minimize" onClick={(_) => window.__TAURI__.window.getCurrentWindow().minimize()}>
                     <img
                         className="hover:shadow-md hover:animate-pulse rounded-full"

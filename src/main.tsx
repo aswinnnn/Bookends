@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { HashRouter, Route, Routes, useNavigate } from "react-router";
+import { HashRouter, Route, Routes } from "react-router";
 import App from "./App";
 import Header from "./components/Header";
 import "./style.css";

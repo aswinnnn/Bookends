@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router';
 import Sidepanel from '../Sidepanel';
-import RichTextEditor from '../common/Editor';
 import Notebook from './Notebook';
 import Home from '../home/Home';
 import Switcher from './Switcher';
-import About from '../about/About';
-import Settings from '../settings/Settings';
 
 interface CreateProps {
   selected: 'home' | 'create';
@@ -15,7 +11,6 @@ interface CreateProps {
 
 const Create: React.FC<CreateProps> = ({selected, setSelected}) => {
   const [currentDateTime, setCurrentDateTime] = useState('');
-  const navigate = useNavigate();
 
   useEffect(() => {
     const now = new Date();
