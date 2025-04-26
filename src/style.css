@@ -1,5 +1,9 @@
 @import "tailwindcss";
-
+* {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 :root {
     padding: 0;
     margin: 0;
@@ -26,6 +30,11 @@
     }
 }
 
+.glass-blur {
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+}
+
 #head2 {
     anchor-name: --heading-2;
 }
@@ -47,4 +56,21 @@
     --color-bookends-titlebar: #192e03;
     --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
     --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
+}
+
+.wallpaper {
+  background-size: cover;
+  background-position: center;
+}
+
+@media (min-aspect-ratio: 16/9) {
+  .wallpaper {
+    background-size: 100% auto; /* Fit width */
+  }
+}
+
+@media (max-aspect-ratio: 16/9) {
+  .wallpaper {
+    background-size: auto 100%; /* Fit height */
+  }
 }

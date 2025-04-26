@@ -100,7 +100,7 @@ const RichTextEditor = () => {
         )}
         spellCheck
         autoFocus
-        className='w-full h-[73vh] bg-white/40 text-bookends-text font-body text-lg py-4 px-2 rounded-lg wrap-anywhere shadow-inner resize-none focus:outline-none focus:ring-0 focus:ring-bookends-accent'
+        className='w-full h-[69vh] bg-white/40 text-bookends-text font-body text-lg py-4 px-2 rounded-lg wrap-anywhere shadow-inner resize-none focus:outline-none focus:ring-0 focus:ring-bookends-accent'
         onKeyDown={(event: KeyboardEvent<HTMLDivElement>) => {
           for (const hotkey in HOTKEYS) {
             if (isHotkey(hotkey, event as any)) {

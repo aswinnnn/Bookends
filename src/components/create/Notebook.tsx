@@ -7,7 +7,7 @@ interface NotebookProps {
 
 const Notebook: React.FC<NotebookProps> = ({ currentDateTime }) => {
   return (
-        <div className="notebook p-6 w-full max-w-4xl bg-gradient-to-br from-white/50 to-white/30 backdrop-blur-md border border-white/20 ">
+        <div className="notebook glass-blur rounded-md p-6 w-full max-w-4xl bg-gradient-to-br from-white/50 to-white/30 backdrop-blur-md border border-white/20 ">
           {/* Date and Time */}
           <div className="date-time wrap-break-word text-gray-600 font-body text-sm md:text-[1.1rem] mb-2 ">
             {currentDateTime}

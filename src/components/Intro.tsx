@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { redirect } from '../utils';
 import { useNavigate } from 'react-router';
 
 const Intro = () => {

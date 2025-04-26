@@ -1,11 +1,13 @@
 import { useNavigate } from "react-router";
-import { useEffect } from "react";
 
-function redirect(path: string) {
-    const navigate = useNavigate();
-    useEffect(() => {
-        navigate(path);
-    }, []);
+function useRedirect() {
+  const navigate = useNavigate();
+
+  const redirect = (path: string) => {
+    navigate(path);
+  };
+
+  return redirect;
 }
 
-export { redirect };
+export { useRedirect };
