@@ -1,7 +1,6 @@
 // @ts-nocheck
 import { BookOpenIcon } from "@heroicons/react/24/outline";
 import { useTheme } from "../ThemeContext";
-import "../types/tauri";
 
 const Header = () => {
     const {themeMode} = useTheme();
