@@ -73,7 +73,7 @@ const About: React.FC<AboutProps> = ({ setSelected }) => {
             better every day.
           </p>
           <a
-            href="https://github.com/your-repo/bookends"
+            href="https://github.com/aswinnnn/Bookends"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block bg-bookends-accent text-white dark:text-black px-6 py-3 rounded-full shadow-md hover:bg-bookends-accent-dark hover:shadow-lg hover:shadow-bookends-accent/50 transition-all duration-300"

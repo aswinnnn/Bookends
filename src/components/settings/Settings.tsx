@@ -77,6 +77,7 @@ const Settings: React.FC<SettingsProps> = ({ setSelected }) => {
     const link = document.createElement("a");
     link.href = url;
     link.download = "theme.json";
+    link.target = "_blank";
     link.click();
     URL.revokeObjectURL(url);
   };

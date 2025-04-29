@@ -28,9 +28,9 @@ const defaultLightTheme: Theme = {
 };
 
 const defaultDarkTheme: Theme = {
-  primary: "#1e1e1e",
-  secondary: "#2d2d2d",
-  accent: "#0078d4",
+  primary: "#241f31",
+  secondary:"#3d3846",
+  accent: "#813d9c",
   wallpaperImage: "",
   isWallpaperEnabled: false,
 };

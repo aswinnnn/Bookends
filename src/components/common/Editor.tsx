@@ -1,5 +1,5 @@
 import isHotkey from 'is-hotkey'
-import React, { KeyboardEvent, MouseEvent, useCallback, useMemo } from 'react'
+import React, { KeyboardEvent, MouseEvent, useCallback, useMemo, useRef } from 'react'
 import {
   Descendant,
   Editor,
@@ -26,6 +26,8 @@ import {
   CustomTextKey,
 } from './custom-types'
 import { Bars3BottomLeftIcon, Bars3BottomRightIcon, Bars3Icon, Bars4Icon, BoldIcon, CodeBracketIcon, H1Icon, H2Icon, ItalicIcon, ListBulletIcon, NumberedListIcon, UnderlineIcon } from '@heroicons/react/24/outline'
+import {create_journal, update_journal} from '../../services/journal'
+import { Journal } from '../../models/types'
 
 const HOTKEYS: Record<string, CustomTextKey> = {
   'mod+b': 'bold',
@@ -40,8 +42,14 @@ const TEXT_ALIGN_TYPES = ['left', 'center', 'right', 'justify'] as const
 type AlignType = (typeof TEXT_ALIGN_TYPES)[number]
 type ListType = (typeof LIST_TYPES)[number]
 type CustomElementFormat = CustomElementType | AlignType | ListType
+interface EditorProps {
+  title: string | "Untitled",
+  tags: string[],
+  journalId: string,
+  setJournalId: React.Dispatch<React.SetStateAction<string>>
+}
 
-const RichTextEditor = () => {
+const RichTextEditor: React.FC<EditorProps> = ({title, tags, journalId, setJournalId}) => {
   const renderElement = useCallback(
     (props: RenderElementProps) => <Element {...props} />,
     []
@@ -55,13 +63,33 @@ const RichTextEditor = () => {
   let prevJournal = ''
 
   const onChange = (value: Descendant[]) => {
+     
+
     // Debounce writing at least 1 second
     clearTimeout(timeoutId)
     timeoutId = setTimeout(() => {
       if (JSON.stringify(value) === prevJournal) {
         return
       }
-      prevJournal = JSON.stringify(value)
+      if (journalId === "new") {
+        create_journal(title, JSON.stringify(value), tags)
+          .then((jid) => {
+            console.log('Created journal: ', jid);
+            setJournalId(jid)
+          })
+          .catch((err) => {
+            console.error('Error creating journal', err)
+          })
+      } else {
+        update_journal(journalId, title, JSON.stringify(value), tags)
+          .then((J) => {
+            console.log('Updated journal', J);
+          })
+          .catch((err) => {
+            console.error('Error updating journal', err)
+          })
+      }
+     prevJournal = JSON.stringify(value)
       console.log('', JSON.stringify(value))
     }, 1000)
   }
@@ -99,7 +127,7 @@ const RichTextEditor = () => {
         )}
         spellCheck
         autoFocus
-        className="w-full glass-blur bg-gradient-to-br from-white/30 to-white/10 dark:from-black/30 dark:to-black/10 text-bookends-text dark:text-gray-200 font-body text-lg py-4 px-2 rounded-lg shadow-inner resize-none focus:outline-none focus:ring-2 focus:ring-bookends-accent/70 dark:focus:ring-bookends-accent-light"
+        className="w-full glass-blur bg-gradient-to-br from-white/30 to-white/10 dark:from-black/30 dark:to-black/10 text-bookends-text dark:text-gray-200 font-body text-lg py-4 px-2 rounded-lg shadow-inner resize-none focus:outline-none focus:ring-2 focus:ring-bookends-accent/70 dark:focus:ring-bookends-dark-accent"
         onKeyDown={(event: KeyboardEvent<HTMLDivElement>) => {
           for (const hotkey in HOTKEYS) {
             if (isHotkey(hotkey, event as any)) {

@@ -1,11 +1,22 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import RichTextEditor from "../common/Editor";
+import { set } from "date-fns";
 
 interface NotebookProps {
   currentDateTime: string;
 }
 
 const Notebook: React.FC<NotebookProps> = ({ currentDateTime }) => {
+  const journal = useRef<HTMLDivElement>(null);
+  const title = useRef<HTMLInputElement>(null);
+  const [journalId, setJournalId] = useState<string>("new");
+
+  useEffect(()=>{
+    if (journal.current) {
+      setJournalId(journal.current.dataset.journalid || "new");
+    }
+  },[journal])
+
   const [tagInput, setTagInput] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
@@ -97,7 +108,7 @@ const Notebook: React.FC<NotebookProps> = ({ currentDateTime }) => {
   );
 
   return (
-    <div className="notebook glass-blur bg-gradient-to-br from-white/30 to-white/10 dark:from-black/30 dark:to-black/10 backdrop-blur-md border border-white/20 dark:border-black/20 rounded-md p-6 w-full max-w-4xl shadow-lg">
+    <div ref={journal} className="notebook glass-blur bg-gradient-to-br from-white/30 to-white/10 dark:from-black/30 dark:to-black/10 backdrop-blur-md border border-white/20 dark:border-black/20 rounded-md p-6 w-full max-w-4xl shadow-lg" data-journalid={journalId}>
       {/* Date and Time */}
       <div className="date-time text-gray-600 dark:text-gray-400 font-body text-sm md:text-[1.1rem] mb-2">
         {currentDateTime}
@@ -106,8 +117,9 @@ const Notebook: React.FC<NotebookProps> = ({ currentDateTime }) => {
 
       {/* Title Input */}
       <input
+        ref={title}
         type="text"
-        className="title-input w-full bg-transparent text-bookends-text dark:text-gray-200 font-display text-[2rem] font-bold mb-4 p-2 pl-0 border-b-2 border-gray-300 dark:border-gray-600 focus:outline-none focus:border-bookends-accent dark:focus:border-bookends-accent-light"
+        className="title-input w-full bg-transparent text-bookends-text dark:text-gray-200 font-display text-[2rem] font-bold mb-4 p-2 pl-0 border-b-2 border-gray-300 dark:border-gray-600 focus:outline-none focus:border-bookends-accent dark:focus:border-bookends-dark-accent"
         placeholder="A title for the day..."
         tabIndex={1}
       />
@@ -148,7 +160,7 @@ const Notebook: React.FC<NotebookProps> = ({ currentDateTime }) => {
           suppressContentEditableWarning
           onInput={handleTagInputChange}
           onKeyDown={handleKeyDown}
-          className={`tag-input flex-grow bg-transparent text-white dark:text-white-200 font-body text-sm md:text-base px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:border-bookends-accent dark:focus:border-bookends-accent-light placeholder-style ${
+          className={`tag-input flex-grow bg-transparent text-white dark:text-white-200 font-body text-sm md:text-base px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:border-bookends-dark-accent-accent dark:focus:border-bookends-dark-accent-light placeholder-style ${
             selectedTags.length > 0 ? "hidden group-hover:block" : ""
           }`}
           data-placeholder="Add a tag..."
@@ -178,7 +190,7 @@ const Notebook: React.FC<NotebookProps> = ({ currentDateTime }) => {
       )}
 
       {/* Writing Area */}
-      <RichTextEditor />
+      <RichTextEditor title={title.current?.value!} tags={selectedTags} journalId={journalId} setJournalId={setJournalId}/>
     </div>
   );
 };

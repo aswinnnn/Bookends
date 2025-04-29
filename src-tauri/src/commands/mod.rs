@@ -1,2 +1,2 @@
-mod journals;
-mod db;
+pub mod journals;
+pub mod db;

@@ -7,6 +7,7 @@ import { useTheme } from "./ThemeContext";
 import "./App.css";
 import Settings from "./components/settings/Settings";
 import About from "./components/about/About";
+import { db_startup } from "./services/db";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null); // Use `null` to indicate loading state
@@ -27,6 +28,7 @@ function App() {
       }
     };
 
+    db_startup();
     checkLoginStatus();
   }, []);
 
