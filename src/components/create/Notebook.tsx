@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import RichTextEditor from "../common/Editor";
 import { set } from "date-fns";
+import { update_journal } from "../../services/journal";
 
 interface NotebookProps {
   currentDateTime: string;
@@ -10,6 +11,7 @@ const Notebook: React.FC<NotebookProps> = ({ currentDateTime }) => {
   const journal = useRef<HTMLDivElement>(null);
   const title = useRef<HTMLInputElement>(null);
   const [journalId, setJournalId] = useState<string>("new");
+  const [journalTitle, setJournalTitle] = useState<string>("");
 
   useEffect(()=>{
     if (journal.current) {
@@ -107,6 +109,29 @@ const Notebook: React.FC<NotebookProps> = ({ currentDateTime }) => {
     (tag) => tag.toLowerCase().includes(tagInput.toLowerCase()) && !selectedTags.includes(tag)
   );
 
+  // useEffect(() => {
+  //   if (journalTitle !== title.current?.value) {
+  //   setJournalTitle(title.current?.value || "");
+  //   console.log("Title changed:", journalTitle);
+  //   }
+  // },[title.current]);
+
+  useEffect(()=>{
+    if (journalId !== "new") {
+    // debounce the title update
+    update_journal(journalId,journalTitle,null, null);
+    console.log("Title updated:", journalId, journalTitle, null);
+    }
+  },[journalTitle]);
+
+  useEffect(()=>{
+    if (journalId !== "new") {
+    // debounce the title update
+    update_journal(journalId,null,null, selectedTags);
+    console.log("Tags updated:", journalId, journalTitle, null);
+    }
+  },[selectedTags]);
+
   return (
     <div ref={journal} className="notebook glass-blur bg-gradient-to-br from-white/30 to-white/10 dark:from-black/30 dark:to-black/10 backdrop-blur-md border border-white/20 dark:border-black/20 rounded-md p-6 w-full max-w-4xl shadow-lg" data-journalid={journalId}>
       {/* Date and Time */}
@@ -122,17 +147,18 @@ const Notebook: React.FC<NotebookProps> = ({ currentDateTime }) => {
         className="title-input w-full bg-transparent text-bookends-text dark:text-gray-200 font-display text-[2rem] font-bold mb-4 p-2 pl-0 border-b-2 border-gray-300 dark:border-gray-600 focus:outline-none focus:border-bookends-accent dark:focus:border-bookends-dark-accent"
         placeholder="A title for the day..."
         tabIndex={1}
+        onChange={(e) => {setJournalTitle(e.target.value);}}
       />
 
       {/* Tag Picker */}
       <div
         className="flex items-center flex-wrap gap-2 mb-4 relative group"
         onMouseEnter={() => {
-          if (tagInputRef.current) tagInputRef.current.style.display = "block";
+          if (tagInputRef.current) tagInputRef.current.style.visibility = "visible";
         }}
         onMouseLeave={() => {
           if (tagInputRef.current && selectedTags.length > 0) {
-            tagInputRef.current.style.display = "none";
+            tagInputRef.current.style.visibility = "hidden";
           }
         }}
       >

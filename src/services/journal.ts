@@ -16,8 +16,8 @@ const create_journal = async (title: string, content: string, tags: string[]): P
     return await core.invoke<string>("create_journal", {title: title, content: content, tags: tags.join(" ")});
 }
 
-const update_journal = async (id: string, title: string, content: string, tags: string[]): Promise<void> => {
-    await core.invoke("update_journal", {id: id, title: title, content: content, tags: tags.join(" ")});
+const update_journal = async (id: string, title: string | null, content: string | null, tags: string[] | null): Promise<void> => {
+    await core.invoke("update_journal", {id: id, title: title, content: content, tags: tags?.join(" ")});
 }
 
 export {

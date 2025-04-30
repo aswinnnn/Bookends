@@ -76,6 +76,7 @@ pub fn db_create_journal(conn: &Connection, id: &str, title: &str, tags: Option<
 }
 
 pub fn db_update_journal(conn: &Connection, id: &str, title: Option<&str>, tags: Option<&str>, content: Option<&str>) -> Result<()> {
+    
     // Use a fixed query with COALESCE to avoid dynamic query construction
     conn.execute(
         "UPDATE journals

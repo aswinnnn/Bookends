@@ -81,7 +81,7 @@ const RichTextEditor: React.FC<EditorProps> = ({title, tags, journalId, setJourn
             console.error('Error creating journal', err)
           })
       } else {
-        update_journal(journalId, title, JSON.stringify(value), tags)
+        update_journal(journalId, null, JSON.stringify(value), null)
           .then((J) => {
             console.log('Updated journal', J);
           })

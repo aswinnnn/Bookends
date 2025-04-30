@@ -14,7 +14,15 @@ pub fn create_journal(conn: &Connection, title: String, content: String, tags: S
     }
 }
 pub fn update_journal(conn: &Connection, id: String, title: Option<String>, content: Option<String>, tags: Option<String>) -> Result<()> {
-    db::db_update_journal(conn, &id, title.as_deref(), tags.as_deref(), content.as_deref())?;
+    if let Some(t) = title  {
+        db::db_update_journal(conn, &id, Some(&t), None, None)?;
+    }
+    if let Some(c) = content {
+        db::db_update_journal(conn, &id, None, None, Some(&c))?;
+    }
+    if let Some(t) = tags {
+        db::db_update_journal(conn, &id, None, Some(&t), None)?;
+    }
     Ok(())
 }
 pub fn delete_journal(conn: &Connection, id: String) -> Result<()> {
