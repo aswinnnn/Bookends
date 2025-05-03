@@ -11,6 +11,11 @@ pub fn data_path() -> PathBuf {
 }
 
 pub fn db_path() -> PathBuf {
+    if !data_path().join(".bookends.dat").exists() {
+        std::fs::create_dir_all(&data_path()).unwrap();
+        std::fs::File::create_new(&data_path().join(".bookends.dat")).unwrap();
+        println!("[db_path()] Created database file at {:?}", data_path().join(".bookends.dat"));
+    }
     data_path().join(".bookends.dat")
 }
 

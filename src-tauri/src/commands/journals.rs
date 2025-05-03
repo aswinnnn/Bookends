@@ -4,7 +4,7 @@ use crate::services::db::DatabaseManager;
 use crate::models;
 
 #[tauri::command]
-pub async fn create_journal(app: tauri::AppHandle, window: tauri::Window, title: String, content: String, tags: String ) -> Result<String, String> {
+pub async fn create_journal(app: tauri::AppHandle, window: tauri::Window, title: String, content: String, rawcontent: String, tags: String ) -> Result<String, String> {
     let db_st = app.state::<Mutex<DatabaseManager>>();
     let db_manager = db_st.lock().await;
     let conn = db_manager.get_connection().map_err(|e| e.to_string())?;
@@ -14,6 +14,7 @@ pub async fn create_journal(app: tauri::AppHandle, window: tauri::Window, title:
         &conn,
         title,
         content,
+        rawcontent,
         tags,
     )
     .map_err(|e| e.to_string());
@@ -32,7 +33,7 @@ pub async fn create_journal(app: tauri::AppHandle, window: tauri::Window, title:
 }
 
 #[tauri::command]
-pub async fn update_journal(app: tauri::AppHandle, window: tauri::Window, id: String, title: Option<String>, content: Option<String>, tags: Option<String>) -> Result<(), String> {
+pub async fn update_journal(app: tauri::AppHandle, window: tauri::Window, id: String, title: Option<String>, content: Option<String>, rawcontent:Option<String>, tags: Option<String>) -> Result<(), String> {
     let db_st = app.state::<Mutex<DatabaseManager>>();
     let db_manager = db_st.lock().await;
     let conn = db_manager.get_connection().map_err(|e| e.to_string())?;
@@ -43,6 +44,7 @@ pub async fn update_journal(app: tauri::AppHandle, window: tauri::Window, id: St
         id,
         title,
         content,
+        rawcontent,
         tags,
     )
     .map_err(|e| e.to_string());

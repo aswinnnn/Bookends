@@ -3,14 +3,18 @@ import Sidepanel from '../Sidepanel';
 import Notebook from './Notebook';
 import Home from '../home/Home';
 import Switcher from './Switcher';
+import CustomizePopup from './CustomizePopup';
+import { CogIcon } from '@heroicons/react/24/outline';
 
 interface CreateProps {
   selected: 'home' | 'create';
   setSelected: React.Dispatch<React.SetStateAction<'home' | 'create'>>;
 }
 
-const Create: React.FC<CreateProps> = ({selected, setSelected}) => {
+const Create: React.FC<CreateProps> = ({ selected, setSelected }) => {
   const [currentDateTime, setCurrentDateTime] = useState('');
+  const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
+  const [isCustomizeOpen, setIsCustomizeOpen] = useState(false);
 
   useEffect(() => {
     const now = new Date();
@@ -25,19 +29,74 @@ const Create: React.FC<CreateProps> = ({selected, setSelected}) => {
     setCurrentDateTime(formattedDateTime);
   }, []);
 
+  const handleContextMenu = (e: React.MouseEvent) => {
+    if (selected === 'create' && window.innerWidth > 768) {
+      e.preventDefault();
+      const target = e.target as HTMLElement;
+
+      // Prevent context menu on the sidepanel or Slate editor
+      if (target.closest('.sidepanel') || target.closest('.slate-editor')) return;
+
+      setContextMenu({ x: e.clientX, y: e.clientY });
+    }
+  };
+
+  const handleClickOutside = () => {
+    setContextMenu(null);
+  };
+
+  useEffect(() => {
+    if (contextMenu) {
+      document.addEventListener('click', handleClickOutside);
+    } else {
+      document.removeEventListener('click', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [contextMenu]);
+
   return (
     <>
-    <Sidepanel setSelected={setSelected} />
+      <Sidepanel setSelected={setSelected} />
       <div
-        className="h-full w-full "
+        className="h-full w-full"
+        onContextMenu={handleContextMenu}
       >
         <div className="create-container h-full w-full flex flex-col items-center py-2 px-6">
           {/* Navigation Buttons */}
-          <Switcher setSelected={setSelected} selected={selected}/>
+          <Switcher setSelected={setSelected} selected={selected} />
           {/* Notebook Section */}
           {selected === 'home' ? <Home /> : <Notebook currentDateTime={currentDateTime} />}
         </div>
       </div>
+
+      {/* Context Menu */}
+      {contextMenu && (
+        <div
+          className="absolute z-50 glass-blur bg-white/10 dark:bg-black/10 backdrop-blur-md border border-white/20 dark:border-black/20 rounded-lg shadow-lg p-2"
+          style={{ top: contextMenu.y, left: contextMenu.x }}
+        >
+          <button
+            className="flex items-center gap-2 px-4 py-2 text-sm text-white hover:bg-white/20 dark:text-gray-300 dark:hover:bg-black/20 rounded-md"
+            onClick={() => {
+              setIsCustomizeOpen(true);
+              setContextMenu(null);
+            }}
+          >
+            <CogIcon className="h-5 w-5" />
+            Customize
+          </button>
+        </div>
+      )}
+
+      {/* Customize Popup */}
+      {isCustomizeOpen && (
+        <CustomizePopup
+          onClose={() => setIsCustomizeOpen(false)}
+        />
+      )}
     </>
   );
 };

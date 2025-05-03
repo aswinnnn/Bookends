@@ -140,7 +140,7 @@ const Card: React.FC<CardProps> = ({
                 dateTime={createdAt.toISOString()} 
                 className="text-xs text-white/50"
               >
-                {format(createdAt, 'MMM d, yyyy • h:mm a')}
+                {format(createdAt, 'MMM d, yyyy • H:mm')}
               </time>
             </div>
             <span className="text-xs text-white/50">

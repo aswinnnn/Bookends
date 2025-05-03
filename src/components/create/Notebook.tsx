@@ -119,7 +119,7 @@ const Notebook: React.FC<NotebookProps> = ({ currentDateTime }) => {
   useEffect(()=>{
     if (journalId !== "new") {
     // debounce the title update
-    update_journal(journalId,journalTitle,null, null);
+    update_journal(journalId,journalTitle,null,null, null);
     console.log("Title updated:", journalId, journalTitle, null);
     }
   },[journalTitle]);
@@ -127,7 +127,7 @@ const Notebook: React.FC<NotebookProps> = ({ currentDateTime }) => {
   useEffect(()=>{
     if (journalId !== "new") {
     // debounce the title update
-    update_journal(journalId,null,null, selectedTags);
+    update_journal(journalId,null,null,null, selectedTags);
     console.log("Tags updated:", journalId, journalTitle, null);
     }
   },[selectedTags]);
