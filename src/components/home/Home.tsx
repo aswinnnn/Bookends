@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router"; // Import useNavigate
 import Card from "./Card";
 import SearchTools from "./SearchTools";
 import { get_journals } from "../../services/journal";
 import { Journal } from "../../models/types";
+import { useSelected } from "../../context/SelectedContext";
 
 const ITEMS_PER_PAGE = 12; // Number of cards per page
 
 const Home = () => {
+  const {setSelected} = useSelected();
   const [journals, setJournals] = useState<Journal[]>([]); // Store all journals
   const [filteredJournals, setFilteredJournals] = useState<Journal[]>([]); // Store filtered journals
   const [currentPage, setCurrentPage] = useState(1); // Current page for pagination
   const [isLoading, setIsLoading] = useState(true); // Loading state
+  const navigate = useNavigate(); // Initialize navigate
 
   const totalPages = Math.ceil(filteredJournals.length / ITEMS_PER_PAGE);
 
@@ -78,6 +82,22 @@ const Home = () => {
     setCurrentPage(page);
   };
 
+  // Handle deleting a journal
+  const handleDeleteJournal = (id: string) => {
+    // Remove the journal from both `journals` and `filteredJournals`
+    setJournals((prevJournals) => prevJournals.filter((journal) => journal.id !== id));
+    setFilteredJournals((prevFiltered) =>
+      prevFiltered.filter((journal) => journal.id !== id)
+    );
+  };
+
+  // Handle card click
+  const handleCardClick = (journal: Journal) => {
+    navigate("/create", { state: { journal } });
+    setSelected("create");
+    console.log("Navigating to create page with journal:", journal);
+  };
+
   // Paginate journals
   const paginatedJournals = filteredJournals.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
@@ -113,6 +133,7 @@ const Home = () => {
             <div className="grid auto-rows-[minmax(240px,auto)] grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {paginatedJournals.map((journal) => (
                 <Card
+                  id={journal.id}
                   key={journal.id}
                   title={journal.title}
                   content={journal.content}
@@ -120,18 +141,8 @@ const Home = () => {
                   lastEdited={journal.updated_at}
                   backgroundImage={"/placeholder.jpg"} // Placeholder image
                   tags={journal.tags}
-                  onDelete={() => {
-                    console.log("Delete:", journal.title);
-                  }}
-                  onViewInfo={() => {
-                    console.log("View info:", journal.title);
-                  }}
-                  onShare={() => {
-                    console.log("Share:", journal.title);
-                  }}
-                  onBookmark={() => {
-                    console.log("Bookmark:", journal.title);
-                  }}
+                  onClick={() => handleCardClick(journal)} // Navigate on card click
+                  onDelete={() => handleDeleteJournal(journal.id)} // Update state on delete
                 />
               ))}
             </div>

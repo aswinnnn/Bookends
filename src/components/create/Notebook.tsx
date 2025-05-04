@@ -1,27 +1,31 @@
-import React, { useState, useRef, useCallback, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import RichTextEditor from "../common/Editor";
-import { set } from "date-fns";
 import { update_journal } from "../../services/journal";
+import { Descendant } from "slate";
 
 interface NotebookProps {
   currentDateTime: string;
+  journalData?: {
+    id: string;
+    title: string;
+    tags: string[];
+    content: string;
+    rawcontent: JSON
+  };
 }
 
-const Notebook: React.FC<NotebookProps> = ({ currentDateTime }) => {
+const Notebook: React.FC<NotebookProps> = ({ currentDateTime, journalData }) => {
   const journal = useRef<HTMLDivElement>(null);
   const title = useRef<HTMLInputElement>(null);
-  const [journalId, setJournalId] = useState<string>("new");
-  const [journalTitle, setJournalTitle] = useState<string>("");
-
-  useEffect(()=>{
-    if (journal.current) {
-      setJournalId(journal.current.dataset.journalid || "new");
-    }
-  },[journal])
-
+  const [journalId, setJournalId] = useState<string>(journalData?.id || "new");
+  const [journalTitle, setJournalTitle] = useState<string>(journalData?.title || "");
+  const [selectedTags, setSelectedTags] = useState<string[]>(journalData?.tags || []);
   const [tagInput, setTagInput] = useState("");
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [highlightedIndex, setHighlightedIndex] = useState<number>(-1);
+  const [width, setWidth] = useState<number>(Math.min(window.innerWidth * 0.6, 800)); // Initial width is 60% of the screen or max 800px
+  const isResizing = useRef<boolean>(false);
+  const startX = useRef<number>(0);
+
   const availableTags = [
     "morning",
     "reflection",
@@ -49,6 +53,26 @@ const Notebook: React.FC<NotebookProps> = ({ currentDateTime }) => {
 
   const suggestionsRef = useRef<HTMLUListElement>(null);
   const tagInputRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (journal.current) {
+      setJournalId(journal.current.dataset.journalid || "new");
+    }
+  }, [journal]);
+
+  useEffect(() => {
+    if (journalId !== "new") {
+      update_journal(journalId, journalTitle, null, null, null);
+      console.log("Title updated:", journalId, journalTitle);
+    }
+  }, [journalTitle]);
+
+  useEffect(() => {
+    if (journalId !== "new") {
+      update_journal(journalId, null, null, null, selectedTags);
+      console.log("Tags updated:", journalId, selectedTags);
+    }
+  }, [selectedTags]);
 
   const handleTagInputChange = () => {
     setTagInput(tagInputRef.current?.textContent || "");
@@ -104,52 +128,83 @@ const Notebook: React.FC<NotebookProps> = ({ currentDateTime }) => {
       }
     }
   };
-
   const filteredTags = availableTags.filter(
     (tag) => tag.toLowerCase().includes(tagInput.toLowerCase()) && !selectedTags.includes(tag)
   );
 
-  // useEffect(() => {
-  //   if (journalTitle !== title.current?.value) {
-  //   setJournalTitle(title.current?.value || "");
-  //   console.log("Title changed:", journalTitle);
-  //   }
-  // },[title.current]);
+  // Handle mouse down on the resizer
+  const handleMouseDown = (e: React.MouseEvent) => {
+    isResizing.current = true;
+    startX.current = e.clientX;
 
-  useEffect(()=>{
-    if (journalId !== "new") {
-    // debounce the title update
-    update_journal(journalId,journalTitle,null,null, null);
-    console.log("Title updated:", journalId, journalTitle, null);
-    }
-  },[journalTitle]);
+    // Disable text selection globally
+    document.body.style.userSelect = "none";
+    document.body.style.cursor = "ew-resize"; // Change cursor to resizing
 
-  useEffect(()=>{
-    if (journalId !== "new") {
-    // debounce the title update
-    update_journal(journalId,null,null,null, selectedTags);
-    console.log("Tags updated:", journalId, journalTitle, null);
-    }
-  },[selectedTags]);
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+  };
+
+  // Handle mouse move to resize the Notebook
+  const handleMouseMove = (e: MouseEvent) => {
+    if (!isResizing.current) return;
+    const deltaX = e.clientX - startX.current;
+    setWidth((prevWidth) => Math.max(400, Math.min(prevWidth + deltaX, window.innerWidth - 100))); // Minimum width is 400px, max is window width - 100px
+    startX.current = e.clientX;
+  };
+
+  // Handle mouse up to stop resizing
+  const handleMouseUp = () => {
+    isResizing.current = false;
+
+    // Re-enable text selection globally
+    document.body.style.userSelect = "";
+    document.body.style.cursor = ""; // Reset cursor to default
+
+    document.removeEventListener("mousemove", handleMouseMove);
+    document.removeEventListener("mouseup", handleMouseUp);
+  };
+
+  // Adjust width on window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth((prevWidth) =>
+        Math.min(Math.max(prevWidth, window.innerWidth * 0.4), window.innerWidth * 0.8)
+      ); // Ensure width is between 40% and 80% of the screen
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
-    <div ref={journal} className="notebook glass-blur bg-gradient-to-br from-white/30 to-white/10 dark:from-black/30 dark:to-black/10 backdrop-blur-md border border-white/20 dark:border-black/20 rounded-md p-6 w-full max-w-4xl shadow-lg" data-journalid={journalId}>
-      {/* Date and Time */}
-      <div className="date-time text-gray-600 dark:text-gray-400 font-body text-sm md:text-[1.1rem] mb-2">
-        {currentDateTime}
-      </div>
-      <hr className="border-gray-300 dark:border-gray-600 mb-4" />
+    <div
+      ref={journal}
+      className="notebook glass-blur bg-gradient-to-br from-white/30 to-white/10 dark:from-black/30 dark:to-black/10 backdrop-blur-md border border-white/20 dark:border-black/20 rounded-md shadow-lg"
+      style={{ width: `${width}px` }} // Dynamically set the width
+      data-journalid={journalId}
+    >
+      {/* Resizer */}
+      <div
+        className="absolute top-0 right-0 h-full w-2 cursor-ew-resize"
+        onMouseDown={handleMouseDown} // Attach mouse down event to the resizer
+      ></div>
 
-      {/* Title Input */}
-      <input
-        ref={title}
-        type="text"
-        className="title-input w-full bg-transparent text-bookends-text dark:text-gray-200 font-display text-[2rem] font-bold mb-4 p-2 pl-0 border-b-2 border-gray-300 dark:border-gray-600 focus:outline-none focus:border-bookends-accent dark:focus:border-bookends-dark-accent"
-        placeholder="A title for the day..."
-        tabIndex={1}
-        onChange={(e) => {setJournalTitle(e.target.value);}}
-      />
-
+      <div className="p-6">
+        <div className="date-time text-gray-600 dark:text-gray-400 font-body text-sm md:text-[1.1rem] mb-2">
+          {currentDateTime}
+        </div>
+        <hr className="border-gray-300 dark:border-gray-600 mb-4" />
+        <input
+          ref={title}
+          type="text"
+          className="title-input w-full bg-transparent text-bookends-text dark:text-gray-200 font-display text-[2rem] font-bold mb-4 p-2 pl-0 border-b-2 border-gray-300 dark:border-gray-600 focus:outline-none focus:border-bookends-accent dark:focus:border-bookends-dark-accent"
+          placeholder="A title for the day..."
+          value={journalTitle}
+          onChange={(e) => setJournalTitle(e.target.value)}
+        />
       {/* Tag Picker */}
       <div
         className="flex items-center flex-wrap gap-2 mb-4 relative group"
@@ -215,8 +270,15 @@ const Notebook: React.FC<NotebookProps> = ({ currentDateTime }) => {
         </ul>
       )}
 
-      {/* Writing Area */}
-      <RichTextEditor title={title.current?.value!} tags={selectedTags} journalId={journalId} setJournalId={setJournalId}/>
+
+        <RichTextEditor
+          title={journalTitle}
+          tags={selectedTags}
+          journalId={journalId}
+          setJournalId={setJournalId}
+          content={journalData?.rawcontent || null}
+        />
+      </div>
     </div>
   );
 };

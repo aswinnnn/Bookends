@@ -1,4 +1,4 @@
-import {useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Routes, Route, useNavigate } from "react-router";
 import Intro from "./components/Intro";
@@ -8,12 +8,12 @@ import "./App.css";
 import Settings from "./components/settings/Settings";
 import About from "./components/about/About";
 import { db_startup } from "./services/db";
+import { SelectedProvider } from "./context/SelectedContext";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null); // Use `null` to indicate loading state
   const navigate = useNavigate();
-  const [selected, setSelected] = useState<'home' | 'create'>('create');
-  const {themeMode} = useTheme();
+  const { themeMode } = useTheme();
 
   // Check login status on app load
   useEffect(() => {
@@ -40,6 +40,7 @@ function App() {
   }, [isLoggedIn]);
 
   return (
+    <SelectedProvider>
       <div
         className={`app-container wallpaper bg-no-repeat bg-center bg-cover ${
           themeMode === "light" ? "bg-[lightTheme.wallpaperImage]" : "bg-[darkTheme.wallpaperImage]"
@@ -50,11 +51,12 @@ function App() {
         } ${themeMode === "dark" ? "dark" : "light"}`}>
         <Routes>
           <Route path="/intro" element={<Intro />} />
-          <Route path="/create" element={<Create selected={selected} setSelected={setSelected} />} />
-          <Route path="/settings" element={<Settings setSelected={setSelected}/>} />
-          <Route path="/about" element={<About setSelected={setSelected}/>} />
+          <Route path="/create" element={<Create />} />
+          <Route path="/settings" element={<Settings />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </div>
+    </SelectedProvider>
   );
 }
 

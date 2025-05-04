@@ -30,6 +30,16 @@
   pointer-events: none;
 }
 
+.notebook .resizer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 2px;
+  height: 100%;
+  background-color: transparent;
+  cursor: ew-resize;
+}
+
 @layer base {
     h2 {
         font-size: min(10vw, 28px);

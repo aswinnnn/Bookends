@@ -1,14 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Switch } from "@headlessui/react";
 import { HomeIcon, PlusCircleIcon, InformationCircleIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
 import { useNavigate } from "react-router";
 import { useTheme } from "../ThemeContext";
+import { useSelected } from "../context/SelectedContext";
 
-interface SidepanelProps {
-  setSelected: React.Dispatch<React.SetStateAction<"home" | "create">>;
-}
-
-const Sidepanel: React.FC<SidepanelProps> = ({ setSelected }) => {
+const Sidepanel = () => {
+  const {setSelected} = useSelected();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const sidepanelRef = useRef<HTMLDivElement>(null);

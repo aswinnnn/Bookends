@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router'; // Import useLocation
 import Sidepanel from '../Sidepanel';
 import Notebook from './Notebook';
 import Home from '../home/Home';
 import Switcher from './Switcher';
 import CustomizePopup from './CustomizePopup';
 import { CogIcon } from '@heroicons/react/24/outline';
+import { useSelected } from '../../context/SelectedContext';
 
-interface CreateProps {
-  selected: 'home' | 'create';
-  setSelected: React.Dispatch<React.SetStateAction<'home' | 'create'>>;
-}
-
-const Create: React.FC<CreateProps> = ({ selected, setSelected }) => {
+const Create = () => {
   const [currentDateTime, setCurrentDateTime] = useState('');
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const [isCustomizeOpen, setIsCustomizeOpen] = useState(false);
+  const location = useLocation(); // Access location to retrieve state
+  const journalData = location.state?.journal; // Retrieve journal data from navigation state
+  const {selected} = useSelected(); // Use the selected context
 
   useEffect(() => {
     const now = new Date();
@@ -59,16 +59,21 @@ const Create: React.FC<CreateProps> = ({ selected, setSelected }) => {
 
   return (
     <>
-      <Sidepanel setSelected={setSelected} />
-      <div
-        className="h-full w-full"
-        onContextMenu={handleContextMenu}
-      >
+      {/* Sidepanel */}
+      <Sidepanel />
+
+      {/* Main Content */}
+      <div className="h-full w-full" onContextMenu={handleContextMenu}>
         <div className="create-container h-full w-full flex flex-col items-center py-2 px-6">
           {/* Navigation Buttons */}
-          <Switcher setSelected={setSelected} selected={selected} />
-          {/* Notebook Section */}
-          {selected === 'home' ? <Home /> : <Notebook currentDateTime={currentDateTime} />}
+          <Switcher />
+
+          {/* Conditional Rendering for Home or Notebook */}
+          {selected === 'home' ? (
+            <Home />
+          ) : (
+            <Notebook currentDateTime={currentDateTime} journalData={journalData} />
+          )}
         </div>
       </div>
 
@@ -93,9 +98,7 @@ const Create: React.FC<CreateProps> = ({ selected, setSelected }) => {
 
       {/* Customize Popup */}
       {isCustomizeOpen && (
-        <CustomizePopup
-          onClose={() => setIsCustomizeOpen(false)}
-        />
+        <CustomizePopup onClose={() => setIsCustomizeOpen(false)} />
       )}
     </>
   );

@@ -1,11 +1,8 @@
-import React, {  } from 'react';
+import { useSelected } from '../../context/SelectedContext';
 
-interface SwitcherProps {
-  setSelected: React.Dispatch<React.SetStateAction<'home' | 'create'>>;
-  selected: string
-}
 
-const Switcher: React.FC<SwitcherProps> = ({ setSelected, selected }) => {
+const Switcher = () => {
+  const {selected, setSelected} = useSelected();
 
   const handleClick = (selected: 'home' | 'create') => {
     setSelected(selected);

@@ -46,10 +46,11 @@ interface EditorProps {
   title: string | "Untitled",
   tags: string[],
   journalId: string,
-  setJournalId: React.Dispatch<React.SetStateAction<string>>
+  setJournalId: React.Dispatch<React.SetStateAction<string>>,
+  content: JSON | null
 }
 
-const RichTextEditor: React.FC<EditorProps> = ({title, tags, journalId, setJournalId}) => {
+const RichTextEditor: React.FC<EditorProps> = ({title, tags, journalId, setJournalId, content}) => {
   const renderElement = useCallback(
     (props: RenderElementProps) => <Element {...props} />,
     []
@@ -68,7 +69,7 @@ const RichTextEditor: React.FC<EditorProps> = ({title, tags, journalId, setJourn
     // Debounce writing at least 1 second
     clearTimeout(timeoutId)
     timeoutId = setTimeout(() => {
-      if (JSON.stringify(value) === prevJournal) {
+      if (Editor.string(editor, []) === prevJournal) {
         return
       }
       if (journalId === "new") {
@@ -89,13 +90,15 @@ const RichTextEditor: React.FC<EditorProps> = ({title, tags, journalId, setJourn
             console.error('Error updating journal', err)
           })
       }
-     prevJournal = JSON.stringify(value)
-      console.log('', JSON.stringify(value))
+     prevJournal = Editor.string(editor, [])
+      console.log('', prevJournal)
     }, 1000)
   }
 
+  let parsedcontent: Descendant[] = content as unknown as Descendant[];
+
   return (
-    <Slate editor={editor} initialValue={initialValue} onChange={onChange}>
+    <Slate editor={editor} initialValue={ parsedcontent || initialValue} onChange={onChange}>
       {/* Toolbar */}
       <Toolbar className="flex-wrap z-0 glass-blur bg-gradient-to-br from-white/30 to-white/10 dark:from-black/30 dark:to-black/10 backdrop-blur-md border border-white/20 dark:border-black/20 rounded-lg shadow-md p-2 mb-4">
         <MarkButton format="bold" Icon={<BoldIcon className="h-4 w-4 md:h-5 md:w-5 " />} />

@@ -20,9 +20,14 @@ const update_journal = async (id: string, title: string | null, content: string 
     await core.invoke("update_journal", {id: id, title: title, content: content, rawcontent: rawcontent, tags: tags?.join(" ")});
 }
 
+const delete_journal = async (id: string): Promise<void> => {
+    await core.invoke("delete_journal", {id: id});
+}
+
 export {
     get_journal,
     get_journals,
     create_journal,
-    update_journal
+    update_journal,
+    delete_journal
 }

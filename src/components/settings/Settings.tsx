@@ -2,11 +2,7 @@ import React, { useState, useEffect } from "react";
 import Sidepanel from "../Sidepanel";
 import { useTheme, Theme } from "../../ThemeContext";
 
-interface SettingsProps {
-  setSelected: React.Dispatch<React.SetStateAction<"home" | "create">>;
-}
-
-const Settings: React.FC<SettingsProps> = ({ setSelected }) => {
+const Settings = () => {
   const { lightTheme, darkTheme, updateTheme, themeMode } = useTheme();
   const [activeTab, setActiveTab] = useState<"general" | "appearance" | "privacy" | "misc">("appearance");
   const [localLightTheme, setLocalLightTheme] = useState<Theme>(lightTheme);
@@ -104,7 +100,7 @@ const Settings: React.FC<SettingsProps> = ({ setSelected }) => {
 
   return (
     <>
-      <Sidepanel setSelected={setSelected} />
+      <Sidepanel/>
       <div className="pt-[30px] min-h-screen bg-transparent backdrop-blur-md text-white dark:text-gray-300 flex flex-col items-center">
         <div className="w-full max-w-4xl px-6 py-12">
           {/* Tabs */}

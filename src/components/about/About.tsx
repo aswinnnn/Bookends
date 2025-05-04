@@ -1,15 +1,10 @@
-import React from "react";
 import Sidepanel from "../Sidepanel";
 
-interface AboutProps {
-  setSelected: React.Dispatch<React.SetStateAction<"home" | "create">>;
-}
-
-const About: React.FC<AboutProps> = ({ setSelected }) => {
+const About = () => {
   return (
     <div className="relative min-h-screen backdrop-blur-md text-white dark:text-gray-300">
       {/* Sidepanel */}
-      <Sidepanel setSelected={setSelected} />
+      <Sidepanel/>
 
       {/* About Page Content */}
       <div className="flex flex-col items-center justify-center min-h-screen px-6 py-12">
