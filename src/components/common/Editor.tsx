@@ -1,5 +1,5 @@
 import isHotkey from 'is-hotkey'
-import React, { KeyboardEvent, MouseEvent, useCallback, useMemo, useRef } from 'react'
+import React, { KeyboardEvent, MouseEvent, useCallback, useEffect, useMemo, useRef } from 'react'
 import {
   Descendant,
   Editor,
@@ -144,7 +144,8 @@ const RichTextEditor: React.FC<EditorProps> = ({title, tags, journalId, setJourn
     </Slate>
   )
 }
-
+// TODO
+// fix content not updating, look at Editor, render async issues blah blah blah
 const toggleBlock = (editor: CustomEditor, format: CustomElementFormat) => {
   const isActive = isBlockActive(
     editor,

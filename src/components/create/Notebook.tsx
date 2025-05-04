@@ -61,6 +61,14 @@ const Notebook: React.FC<NotebookProps> = ({ currentDateTime, journalData }) => 
   }, [journal]);
 
   useEffect(() => {
+    if (journalData) {
+      setJournalId(journalData.id || "new");
+      setJournalTitle(journalData.title || "");
+      setSelectedTags(journalData.tags || []);
+    }
+  }, [journalData]);
+
+  useEffect(() => {
     if (journalId !== "new") {
       update_journal(journalId, journalTitle, null, null, null);
       console.log("Title updated:", journalId, journalTitle);
