@@ -1,8 +1,11 @@
 import { useSelected } from '../../context/SelectedContext';
+import { useTheme } from '../../ThemeContext';
 
 
 const Switcher = () => {
   const {selected, setSelected} = useSelected();
+  const { themeMode, lightTheme, darkTheme } = useTheme();
+  const currentTheme = themeMode === "light" ? lightTheme : darkTheme;
 
   const handleClick = (selected: 'home' | 'create') => {
     setSelected(selected);
@@ -16,6 +19,11 @@ const Switcher = () => {
         className={`absolute top-0 left-0 h-full w-1/2 bg-gradient-to-br from-white/50 to-white/30 dark:from-black/20 dark:to-black/10 backdrop-blur-md border border-white/20 text-shadow rounded-b-xl shadow-md transition-all duration-300 ease-in-out ${
           selected === 'home' ? 'translate-x-0' : 'translate-x-full'
         }`}
+        style={{
+          background: `linear-gradient(135deg, ${currentTheme.secondary}40, ${currentTheme.secondary}20)`,
+          backdropFilter: "blur(10px)",
+          WebkitBackdropFilter: "blur(10px)",
+        }}
       ></div>
 
       {/* Buttons */}

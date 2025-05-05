@@ -15,7 +15,7 @@ const Create = () => {
   const location = useLocation(); // Access location to retrieve state
   const journalData = location.state?.journal; // Retrieve journal data from navigation state
   const {selected} = useSelected(); // Use the selected context
-
+  
   useEffect(() => {
     const now = new Date();
     const formattedDateTime = now.toLocaleString('en-US', {
@@ -35,7 +35,7 @@ const Create = () => {
       const target = e.target as HTMLElement;
 
       // Prevent context menu on the sidepanel or Slate editor
-      if (target.closest('.sidepanel') || target.closest('.slate-editor')) return;
+      if (target.closest('.sidepanel') || target.closest('.notebook')) return;
 
       setContextMenu({ x: e.clientX, y: e.clientY });
     }
@@ -64,7 +64,9 @@ const Create = () => {
 
       {/* Main Content */}
       <div className="h-full w-full" onContextMenu={handleContextMenu}>
-        <div className="create-container h-full w-full flex flex-col items-center py-2 px-6">
+        <div
+          className="create-container h-full w-full flex flex-col items-center py-2 px-6"
+        >
           {/* Navigation Buttons */}
           <Switcher />
 

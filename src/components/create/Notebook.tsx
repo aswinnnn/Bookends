@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import RichTextEditor from "../common/Editor";
 import { update_journal } from "../../services/journal";
-import { Descendant } from "slate";
 
 interface NotebookProps {
   currentDateTime: string;
@@ -142,6 +141,7 @@ const Notebook: React.FC<NotebookProps> = ({ currentDateTime, journalData }) => 
 
   // Handle mouse down on the resizer
   const handleMouseDown = (e: React.MouseEvent) => {
+    console.log("Mouse down on resizer"); // Debugging
     isResizing.current = true;
     startX.current = e.clientX;
 
@@ -149,26 +149,37 @@ const Notebook: React.FC<NotebookProps> = ({ currentDateTime, journalData }) => 
     document.body.style.userSelect = "none";
     document.body.style.cursor = "ew-resize"; // Change cursor to resizing
 
+    // Attach event listeners for mousemove and mouseup
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
   };
 
   // Handle mouse move to resize the Notebook
   const handleMouseMove = (e: MouseEvent) => {
-    if (!isResizing.current) return;
+    if (!isResizing.current) return; // Ensure resizing is active
+
     const deltaX = e.clientX - startX.current;
-    setWidth((prevWidth) => Math.max(400, Math.min(prevWidth + deltaX, window.innerWidth - 100))); // Minimum width is 400px, max is window width - 100px
+    console.log("Mouse move detected, deltaX:", deltaX); // Debugging
+
+    setWidth((prevWidth) => {
+      const newWidth = Math.max(400, Math.min(prevWidth + deltaX, window.innerWidth - 100));
+      console.log("New width:", newWidth); // Debugging
+      return newWidth;
+    });
+
     startX.current = e.clientX;
   };
 
   // Handle mouse up to stop resizing
   const handleMouseUp = () => {
+    console.log("Mouse up, stopping resize"); // Debugging
     isResizing.current = false;
 
     // Re-enable text selection globally
     document.body.style.userSelect = "";
     document.body.style.cursor = ""; // Reset cursor to default
 
+    // Remove event listeners for mousemove and mouseup
     document.removeEventListener("mousemove", handleMouseMove);
     document.removeEventListener("mouseup", handleMouseUp);
   };
@@ -191,7 +202,9 @@ const Notebook: React.FC<NotebookProps> = ({ currentDateTime, journalData }) => 
     <div
       ref={journal}
       className="notebook glass-blur bg-gradient-to-br from-white/30 to-white/10 dark:from-black/30 dark:to-black/10 backdrop-blur-md border border-white/20 dark:border-black/20 rounded-md shadow-lg"
-      style={{ width: `${width}px` }} // Dynamically set the width
+      style={{
+        width: `${width}px`, // Dynamically apply the width
+      }}
       data-journalid={journalId}
     >
       {/* Resizer */}

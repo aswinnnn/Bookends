@@ -1,5 +1,5 @@
 import isHotkey from 'is-hotkey'
-import React, { KeyboardEvent, MouseEvent, useCallback, useEffect, useMemo, useRef } from 'react'
+import React, { KeyboardEvent, MouseEvent, useCallback, useMemo} from 'react'
 import {
   Descendant,
   Editor,
@@ -27,7 +27,7 @@ import {
 } from './custom-types'
 import { Bars3BottomLeftIcon, Bars3BottomRightIcon, Bars3Icon, Bars4Icon, BoldIcon, CodeBracketIcon, H1Icon, H2Icon, ItalicIcon, ListBulletIcon, NumberedListIcon, UnderlineIcon } from '@heroicons/react/24/outline'
 import {create_journal, update_journal} from '../../services/journal'
-import { Journal } from '../../models/types'
+import { useTheme } from '../../ThemeContext'
 
 const HOTKEYS: Record<string, CustomTextKey> = {
   'mod+b': 'bold',
@@ -51,6 +51,10 @@ interface EditorProps {
 }
 
 const RichTextEditor: React.FC<EditorProps> = ({title, tags, journalId, setJournalId, content}) => {
+
+  const { themeMode, lightTheme, darkTheme } = useTheme();
+  const currentTheme = themeMode === "light" ? lightTheme : darkTheme;
+
   const renderElement = useCallback(
     (props: RenderElementProps) => <Element {...props} />,
     []
@@ -131,6 +135,11 @@ const RichTextEditor: React.FC<EditorProps> = ({title, tags, journalId, setJourn
         spellCheck
         autoFocus
         className="w-full glass-blur bg-gradient-to-br from-white/30 to-white/10 dark:from-black/30 dark:to-black/10 text-bookends-text dark:text-gray-200 font-body text-lg py-4 px-2 rounded-lg shadow-inner resize-none focus:outline-none focus:ring-2 focus:ring-bookends-accent/70 dark:focus:ring-bookends-dark-accent"
+        style={{
+          background: `linear-gradient(135deg, ${currentTheme.secondary}80, ${currentTheme.secondary}50)`,
+          backdropFilter: "blur(15px)",
+          WebkitBackdropFilter: "blur(15px)",
+        }}
         onKeyDown={(event: KeyboardEvent<HTMLDivElement>) => {
           for (const hotkey in HOTKEYS) {
             if (isHotkey(hotkey, event as any)) {
