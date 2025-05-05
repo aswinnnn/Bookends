@@ -45,12 +45,15 @@ const Sidepanel = () => {
       {/* Glassmorphic Toggle Button */}
       <button
         ref={toggleButtonRef}
-        className={`fixed glass-blur top-[40px] z-50 flex items-center justify-center h-12 w-12 rounded-full shadow-lg transition-all duration-500 ease-in-out ${
+        className={`fixed top-[40px] z-50 flex items-center justify-center h-12 w-12 rounded-full shadow-lg transition-all duration-500 ease-in-out ${
           isOpen ? "left-[70%] md:left-[240px] lg:left-[300px]" : "left-2"
         }`}
         style={{
-          background: `linear-gradient(to bottom right, ${currentTheme.secondary}80, ${currentTheme.secondary}50)`,
+          background: `linear-gradient(135deg, ${currentTheme.secondary}80, ${currentTheme.secondary}50)`,
+          backdropFilter: "blur(10px)",
+          WebkitBackdropFilter: "blur(10px)",
           border: `1px solid ${themeMode === "dark" ? currentTheme.primary : currentTheme.secondary}`,
+          boxShadow: "0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.3)",
         }}
         onClick={() => setIsOpen(!isOpen)}
       >
@@ -60,12 +63,15 @@ const Sidepanel = () => {
       {/* Sidepanel */}
       <div
         ref={sidepanelRef}
-        className={`fixed glass-blur top-[30px] left-0 h-[calc(100%-30px)] w-[70%] md:w-[240px] lg:w-[360px] shadow-lg z-40 transform ${
+        className={`fixed top-[30px] left-0 h-[calc(100%-30px)] w-[70%] md:w-[240px] lg:w-[360px] shadow-lg z-40 transform ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         } transition-transform duration-500 ease-in-out`}
         style={{
-          background: `linear-gradient(to bottom right, ${currentTheme.secondary}80, ${currentTheme.secondary}50)`,
+          background: `linear-gradient(135deg, ${currentTheme.secondary}80, ${currentTheme.secondary}50)`,
+          backdropFilter: "blur(15px)",
+          WebkitBackdropFilter: "blur(15px)",
           border: `1px solid ${themeMode === "dark" ? currentTheme.primary : currentTheme.secondary}`,
+          boxShadow: "0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.3)",
         }}
       >
         {/* Profile Header */}
@@ -73,13 +79,15 @@ const Sidepanel = () => {
           className="p-4 border-b"
           style={{
             borderColor: themeMode === "dark" ? currentTheme.primary : currentTheme.secondary,
+            background: `linear-gradient(to bottom, ${currentTheme.primary}30, transparent)`,
           }}
         >
           <div className="flex items-center gap-4">
             <div
               className="h-12 w-12 rounded-full flex items-center justify-center text-white font-bold"
               style={{
-                background: `linear-gradient(to bottom right, ${currentTheme.accent}, ${currentTheme.primary})`,
+                background: `linear-gradient(135deg, ${currentTheme.accent}, ${currentTheme.primary})`,
+                boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.5)",
               }}
             >
               A
@@ -96,6 +104,10 @@ const Sidepanel = () => {
           <ul className="space-y-4">
             <li
               className="flex items-center gap-3 hover:bg-white/20 dark:hover:bg-black/20 p-2 rounded-lg cursor-pointer transition"
+              style={{
+                backdropFilter: "blur(5px)",
+                WebkitBackdropFilter: "blur(5px)",
+              }}
               onClick={() => {
                 setSelected("home");
                 navigate("/create");
@@ -106,6 +118,10 @@ const Sidepanel = () => {
             </li>
             <li
               className="flex items-center gap-3 hover:bg-white/20 dark:hover:bg-black/20 p-2 rounded-lg cursor-pointer transition"
+              style={{
+                backdropFilter: "blur(5px)",
+                WebkitBackdropFilter: "blur(5px)",
+              }}
               onClick={() => {
                 setSelected("create");
                 navigate("/create");
@@ -116,6 +132,10 @@ const Sidepanel = () => {
             </li>
             <li
               className="flex items-center gap-3 hover:bg-white/20 dark:hover:bg-black/20 p-2 rounded-lg cursor-pointer transition"
+              style={{
+                backdropFilter: "blur(5px)",
+                WebkitBackdropFilter: "blur(5px)",
+              }}
               onClick={() => navigate("/about")}
             >
               <InformationCircleIcon className="h-6 w-6" style={{ color: currentTheme.accent }} />
@@ -123,6 +143,10 @@ const Sidepanel = () => {
             </li>
             <li
               className="flex items-center gap-3 hover:bg-white/20 dark:hover:bg-black/20 p-2 rounded-lg cursor-pointer transition"
+              style={{
+                backdropFilter: "blur(5px)",
+                WebkitBackdropFilter: "blur(5px)",
+              }}
               onClick={() => navigate("/settings")}
             >
               <Cog6ToothIcon className="h-6 w-6" style={{ color: currentTheme.accent }} />
@@ -136,6 +160,7 @@ const Sidepanel = () => {
           className="p-4 border-t"
           style={{
             borderColor: themeMode === "dark" ? currentTheme.primary : currentTheme.secondary,
+            background: `linear-gradient(to top, ${currentTheme.primary}30, transparent)`,
           }}
         >
           <div className="flex items-center justify-between">
