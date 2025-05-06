@@ -1,5 +1,5 @@
 import isHotkey from 'is-hotkey'
-import React, { KeyboardEvent, MouseEvent, useCallback, useMemo} from 'react'
+import React, { KeyboardEvent, MouseEvent, useCallback, useEffect, useMemo} from 'react'
 import {
   Descendant,
   Editor,
@@ -99,10 +99,27 @@ const RichTextEditor: React.FC<EditorProps> = ({title, tags, journalId, setJourn
     }, 1000)
   }
 
-  let parsedcontent: Descendant[] = content as unknown as Descendant[];
+  let parsedcontent: Descendant[] | null = content as unknown as Descendant[];
+
+  useEffect(() => {
+    if (content === null) {
+      return
+    }
+    if (parsedcontent === null) {
+      return
+    }
+  Transforms.delete(editor)
+
+  Transforms.insertNodes(editor, parsedcontent, {
+    at: { path: [0], offset: 0 },
+  })
+
+  content = null;
+  parsedcontent = null;
+  }, [content])
 
   return (
-    <Slate editor={editor} initialValue={ parsedcontent || initialValue} onChange={onChange}>
+    <Slate editor={editor} initialValue={initialValue} onChange={onChange}>
       {/* Toolbar */}
       <Toolbar className="flex-wrap z-0 glass-blur bg-gradient-to-br from-white/30 to-white/10 dark:from-black/30 dark:to-black/10 backdrop-blur-md border border-white/20 dark:border-black/20 rounded-lg shadow-md p-2 mb-4">
         <MarkButton format="bold" Icon={<BoldIcon className="h-4 w-4 md:h-5 md:w-5 " />} />
@@ -361,125 +378,136 @@ const isAlignElement = (
 
 const initialValue: Descendant[] = [
   {
-	"type": "paragraph",
-	"align": "center",
-	"children": [
-	  {
-		"text": "Time it was, it was what a time it was, it was",
-		"italic": true
-	  }
-	]
+    type: 'paragraph',
+    align: 'left',
+    children: [
+      {
+        text: '',
+      },
+    ],
   },
-  {
-	"type": "paragraph",
-	"align": "center",
-	"children": [
-	  {
-		"text": "A time of innocence, ",
-		"italic": true
-	  }
-	]
-  },
-  {
-	"type": "paragraph",
-	"align": "center",
-	"children": [
-	  {
-		"text": "A time of confidences.",
-		"italic": true
-	  }
-	]
-  },
-  {
-	"type": "paragraph",
-	"align": "center",
-	"children": [
-	  {
-		"italic": true,
-		"text": ""
-	  }
-	]
-  },
-  {
-	"type": "paragraph",
-	"align": "center",
-	"children": [
-	  {
-		"text": "Long ago, it must be,",
-		"italic": true
-	  }
-	]
-  },
-  {
-	"type": "paragraph",
-	"align": "center",
-	"children": [
-	  {
-		"text": "I have a photograph,",
-		"italic": true
-	  }
-	]
-  },
-  {
-	"type": "paragraph",
-	"align": "center",
-	"children": [
-	  {
-		"text": "Preserve your memories,",
-		"italic": true
-	  }
-	]
-  },
-  {
-	"type": "paragraph",
-	"align": "center",
-	"children": [
-	  {
-		"italic": true,
-		"text": ""
-	  }
-	]
-  },
-  {
-	"type": "paragraph",
-	"align": "center",
-	"children": [
-	  {
-		"text": "they're all that's left you.",
-		"italic": true
-	  }
-	]
-  },
-  {
-	"type": "paragraph",
-	"align": "center",
-	"children": [
-	  {
-		"italic": true,
-		"text": "",
-		"code": true
-	  }
-	]
-  },
-  {
-	"type": "paragraph",
-	"align": "left",
-	"children": [
-	  {
-		"text": "               - \"Bookends (Reprise)\", ",
-		"code": true
-	  },
-	  {
-		"text": "Simon & Garfunkel",
-		"italic": true,
-		"code": true
-	  },
-	  {
-		"text": ", 1967",
-		"code": true
-	  }
-	]
-  }
 ]
+// const initialValue: Descendant[] = [
+//   {
+// 	"type": "paragraph",
+// 	"align": "center",
+// 	"children": [
+// 	  {
+// 		"text": "Time it was, it was what a time it was, it was",
+// 		"italic": true
+// 	  }
+// 	]
+//   },
+//   {
+// 	"type": "paragraph",
+// 	"align": "center",
+// 	"children": [
+// 	  {
+// 		"text": "A time of innocence, ",
+// 		"italic": true
+// 	  }
+// 	]
+//   },
+//   {
+// 	"type": "paragraph",
+// 	"align": "center",
+// 	"children": [
+// 	  {
+// 		"text": "A time of confidences.",
+// 		"italic": true
+// 	  }
+// 	]
+//   },
+//   {
+// 	"type": "paragraph",
+// 	"align": "center",
+// 	"children": [
+// 	  {
+// 		"italic": true,
+// 		"text": ""
+// 	  }
+// 	]
+//   },
+//   {
+// 	"type": "paragraph",
+// 	"align": "center",
+// 	"children": [
+// 	  {
+// 		"text": "Long ago, it must be,",
+// 		"italic": true
+// 	  }
+// 	]
+//   },
+//   {
+// 	"type": "paragraph",
+// 	"align": "center",
+// 	"children": [
+// 	  {
+// 		"text": "I have a photograph,",
+// 		"italic": true
+// 	  }
+// 	]
+//   },
+//   {
+// 	"type": "paragraph",
+// 	"align": "center",
+// 	"children": [
+// 	  {
+// 		"text": "Preserve your memories,",
+// 		"italic": true
+// 	  }
+// 	]
+//   },
+//   {
+// 	"type": "paragraph",
+// 	"align": "center",
+// 	"children": [
+// 	  {
+// 		"italic": true,
+// 		"text": ""
+// 	  }
+// 	]
+//   },
+//   {
+// 	"type": "paragraph",
+// 	"align": "center",
+// 	"children": [
+// 	  {
+// 		"text": "they're all that's left you.",
+// 		"italic": true
+// 	  }
+// 	]
+//   },
+//   {
+// 	"type": "paragraph",
+// 	"align": "center",
+// 	"children": [
+// 	  {
+// 		"italic": true,
+// 		"text": "",
+// 		"code": true
+// 	  }
+// 	]
+//   },
+//   {
+// 	"type": "paragraph",
+// 	"align": "left",
+// 	"children": [
+// 	  {
+// 		"text": "               - \"Bookends (Reprise)\", ",
+// 		"code": true
+// 	  },
+// 	  {
+// 		"text": "Simon & Garfunkel",
+// 		"italic": true,
+// 		"code": true
+// 	  },
+// 	  {
+// 		"text": ", 1967",
+// 		"code": true
+// 	  }
+// 	]
+//   }
+// ]
 
 export default RichTextEditor
