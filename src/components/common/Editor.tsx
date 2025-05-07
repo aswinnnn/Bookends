@@ -1,5 +1,5 @@
 import isHotkey from 'is-hotkey'
-import React, { KeyboardEvent, MouseEvent, useCallback, useEffect, useMemo} from 'react'
+import React, { KeyboardEvent, MouseEvent, useCallback, useEffect, useMemo } from 'react'
 import {
   Descendant,
   Editor,
@@ -26,7 +26,7 @@ import {
   CustomTextKey,
 } from './custom-types'
 import { Bars3BottomLeftIcon, Bars3BottomRightIcon, Bars3Icon, Bars4Icon, BoldIcon, CodeBracketIcon, H1Icon, H2Icon, ItalicIcon, ListBulletIcon, NumberedListIcon, UnderlineIcon } from '@heroicons/react/24/outline'
-import {create_journal, update_journal} from '../../services/journal'
+import { create_journal, update_journal } from '../../services/journal'
 import { useTheme } from '../../ThemeContext'
 
 const HOTKEYS: Record<string, CustomTextKey> = {
@@ -50,7 +50,7 @@ interface EditorProps {
   content: JSON | null
 }
 
-const RichTextEditor: React.FC<EditorProps> = ({title, tags, journalId, setJournalId, content}) => {
+const RichTextEditor: React.FC<EditorProps> = ({ title, tags, journalId, setJournalId, content }) => {
 
   const { themeMode, lightTheme, darkTheme } = useTheme();
   const currentTheme = themeMode === "light" ? lightTheme : darkTheme;
@@ -68,7 +68,7 @@ const RichTextEditor: React.FC<EditorProps> = ({title, tags, journalId, setJourn
   let prevJournal = ''
 
   const onChange = (value: Descendant[]) => {
-     
+
 
     // Debounce writing at least 1 second
     clearTimeout(timeoutId)
@@ -86,7 +86,7 @@ const RichTextEditor: React.FC<EditorProps> = ({title, tags, journalId, setJourn
             console.error('Error creating journal', err)
           })
       } else {
-        update_journal(journalId, null, Editor.string(editor, []),JSON.stringify(value), null)
+        update_journal(journalId, null, Editor.string(editor, []), JSON.stringify(value), null)
           .then((J) => {
             console.log('Updated journal', J);
           })
@@ -94,29 +94,30 @@ const RichTextEditor: React.FC<EditorProps> = ({title, tags, journalId, setJourn
             console.error('Error updating journal', err)
           })
       }
-     prevJournal = Editor.string(editor, [])
+      prevJournal = Editor.string(editor, [])
       console.log('', prevJournal)
     }, 1000)
   }
 
-  let parsedcontent: Descendant[] | null = content as unknown as Descendant[];
-
   useEffect(() => {
-    if (content === null) {
-      return
-    }
-    if (parsedcontent === null) {
-      return
-    }
-  Transforms.delete(editor)
+    console.log('Content:', content);
+    console.log('Editor children before update:', editor.children);
 
-  Transforms.insertNodes(editor, parsedcontent, {
-    at: { path: [0], offset: 0 },
-  })
+    if (!content) {
+      console.log('Content is null or undefined. Skipping update.');
+      return;
+    }
 
-  content = null;
-  parsedcontent = null;
-  }, [content])
+    const parsedContent: Descendant[] = content as unknown as Descendant[];
+
+    editor.children = []
+    editor.onChange();
+
+    console.log('Inserting parsed content into the editor:', parsedContent);
+    Transforms.insertNodes(editor, parsedContent, { at: [0] });
+
+    console.log('Editor children after update:', editor.children);
+  }, [content]);
 
   return (
     <Slate editor={editor} initialValue={initialValue} onChange={onChange}>
@@ -379,14 +380,9 @@ const isAlignElement = (
 const initialValue: Descendant[] = [
   {
     type: 'paragraph',
-    align: 'left',
-    children: [
-      {
-        text: '',
-      },
-    ],
+    children: [{ text: '' }],
   },
-]
+];
 // const initialValue: Descendant[] = [
 //   {
 // 	"type": "paragraph",
