@@ -18,10 +18,10 @@ const DeleteConfirmationDialog: React.FC<DeleteConfirmationDialogProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div className="glass-blur bg-gradient-to-br from-white/30 to-white/10 dark:from-black/30 dark:to-black/10 backdrop-blur-md border border-white/20 dark:border-black/20 rounded-xl shadow-lg p-6 max-w-sm w-full">
-        <h2 className="text-lg font-bold text-gray-800 dark:text-gray-200 mb-4">
+        <h2 className="text-lg font-bold text-bookends-text dark:text-bookends-dark-text mb-4">
           Delete "{journalTitle}"?
         </h2>
-        <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">
+        <p className="text-sm text-bookends-text dark:text-bookends-dark-text mb-6">
           Are you sure you want to delete this journal? This action cannot be undone.
         </p>
         <div className="flex justify-end gap-4">

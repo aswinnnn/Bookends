@@ -1,14 +1,21 @@
+import React from 'react';
 import { useSelected } from '../../context/SelectedContext';
 import { useTheme } from '../../ThemeContext';
+import { select } from 'slate';
 
-
-const Switcher = () => {
+interface SwticherProps {
+  setJournalId: React.Dispatch<React.SetStateAction<string>>
+}
+const Switcher: React.FC<SwticherProps> = ({setJournalId}) => {
   const {selected, setSelected} = useSelected();
   const { themeMode, lightTheme, darkTheme } = useTheme();
   const currentTheme = themeMode === "light" ? lightTheme : darkTheme;
 
   const handleClick = (selected: 'home' | 'create') => {
     setSelected(selected);
+    if (selected === 'create') {
+      setJournalId("new");
+    }
     console.log(`Selected: ${selected}`);
   };
 

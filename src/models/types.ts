@@ -88,6 +88,7 @@ class Journal implements Journal {
 
 interface Media {
   journalId: string;
+  customEnabled: boolean;
   backgroundImage: string | null;
   isBgEnabled: boolean;
   primaryColor: string | null;
@@ -101,6 +102,7 @@ interface Media {
 class Media implements Media {
   constructor(
     journalId: string,
+    customEnabled: boolean,
     backgroundImage: string | null,
     isBgEnabled: boolean,
     primaryColor: string | null,
@@ -111,6 +113,7 @@ class Media implements Media {
     fontBody: string | null
   ) {
     this.journalId = journalId;
+    this.customEnabled = customEnabled;
     this.backgroundImage = backgroundImage;
     this.isBgEnabled = isBgEnabled;
     this.primaryColor = primaryColor;

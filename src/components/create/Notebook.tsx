@@ -1,22 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
 import RichTextEditor from "../common/Editor";
 import { update_journal } from "../../services/journal";
+import { Journal } from "../../models/types";
 
 interface NotebookProps {
   currentDateTime: string;
-  journalData?: {
-    id: string;
-    title: string;
-    tags: string[];
-    content: string;
-    rawcontent: JSON
-  };
+  journalData?: Journal,
+  journalId: string;
+  setJournalId: React.Dispatch<React.SetStateAction<string>>
 }
 
-const Notebook: React.FC<NotebookProps> = ({ currentDateTime, journalData }) => {
+const Notebook: React.FC<NotebookProps> = ({ currentDateTime, journalData, journalId, setJournalId }) => {
   const journal = useRef<HTMLDivElement>(null);
   const title = useRef<HTMLInputElement>(null);
-  const [journalId, setJournalId] = useState<string>(journalData?.id || "new");
   const [journalTitle, setJournalTitle] = useState<string>(journalData?.title || "");
   const [selectedTags, setSelectedTags] = useState<string[]>(journalData?.tags || []);
   const [tagInput, setTagInput] = useState("");

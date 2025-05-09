@@ -68,6 +68,7 @@ pub fn create_tables(conn: &Connection) -> Result<()> {
         let mut stmt = conn.prepare(
             "CREATE TABLE IF NOT EXISTS media (
                 journal_id TEXT PRIMARY KEY,
+                customenabled BOOLEAN,
                 backgroundimage TEXT,
                 isbgenabled BOOLEAN,
                 primary_color TEXT,
@@ -126,11 +127,12 @@ pub fn db_delete_journal(conn: &Connection, id: &str) -> Result<()> {
 pub fn db_create_media(conn: &Connection, media: &Media) -> Result<()> {
     let mut stmt = conn.prepare(
         "INSERT INTO media (
-            journal_id, backgroundimage, isbgenabled, primary_color, secondary_color, text_color, song, font_title, font_body
-        ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)",
+            journal_id, customenabled, backgroundimage, isbgenabled, primary_color, secondary_color, text_color, song, font_title, font_body
+        ) VALUES (?1,?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)",
     )?;
     stmt.execute(params![
         media.journal_id,
+        media.customenabled,
         media.backgroundimage,
         media.isbgenabled,
         media.primary_color,
@@ -181,14 +183,15 @@ pub fn db_get_media(conn: &Connection, journal_id: &str) -> Result<Option<Media>
     let media = stmt.query_row(params![journal_id], |row| {
         Ok(Media {
             journal_id: row.get(0)?,
-            backgroundimage: row.get(1)?,
-            isbgenabled: row.get(2)?,
-            primary_color: row.get(3)?,
-            secondary_color: row.get(4)?,
-            text_color: row.get(5)?,
-            song: row.get(6)?,
-            font_title: row.get(7)?,
-            font_body: row.get(8)?,
+            customenabled: row.get(1)?,
+            backgroundimage: row.get(2)?,
+            isbgenabled: row.get(3)?,
+            primary_color: row.get(4)?,
+            secondary_color: row.get(5)?,
+            text_color: row.get(6)?,
+            song: row.get(7)?,
+            font_title: row.get(8)?,
+            font_body: row.get(9)?,
         })
     }).optional()?;
     Ok(media)

@@ -28,9 +28,9 @@ const defaultLightTheme: Theme = {
   accent: "#0078d4",
   wallpaperImage: "",
   isWallpaperEnabled: false,
-  fontTitle: "Arial, sans-serif",
-  fontBody: "Roboto, sans-serif",
-  textColor: "#000000",
+  fontTitle: "Playfair Display",
+  fontBody: "Lexend Deca",
+  textColor: "#ffffff",
 };
 
 const defaultDarkTheme: Theme = {
@@ -39,8 +39,8 @@ const defaultDarkTheme: Theme = {
   accent: "#813d9c",
   wallpaperImage: "",
   isWallpaperEnabled: false,
-  fontTitle: "Arial, sans-serif",
-  fontBody: "Roboto, sans-serif",
+  fontTitle: "Playfair Display",
+  fontBody: "Lexend Deca",
   textColor: "#ffffff",
 };
 
@@ -54,17 +54,17 @@ const updateCSSVariables = (lightTheme: Theme, darkTheme: Theme, themeMode: "lig
   root.style.setProperty("--color-bookends-primary", lightTheme.primary);
   root.style.setProperty("--color-bookends-secondary", lightTheme.secondary);
   root.style.setProperty("--color-bookends-accent", lightTheme.accent);
-  root.style.setProperty("--font-title-light", lightTheme.fontTitle);
-  root.style.setProperty("--font-body-light", lightTheme.fontBody);
-  root.style.setProperty("--text-color-light", lightTheme.textColor);
+  root.style.setProperty("--font-display", lightTheme.fontTitle);
+  root.style.setProperty("--font-body", lightTheme.fontBody);
+  root.style.setProperty("--color-bookends-text", lightTheme.textColor);
 
   // Update dark theme variables
   root.style.setProperty("--color-bookends-dark-primary", darkTheme.primary);
   root.style.setProperty("--color-bookends-dark-secondary", darkTheme.secondary);
   root.style.setProperty("--color-bookends-dark-accent", darkTheme.accent);
-  root.style.setProperty("--font-title-dark", darkTheme.fontTitle);
-  root.style.setProperty("--font-body-dark", darkTheme.fontBody);
-  root.style.setProperty("--text-color-dark", darkTheme.textColor);
+  root.style.setProperty("--font-dark-display", darkTheme.fontTitle);
+  root.style.setProperty("--font-dark-body", darkTheme.fontBody);
+  root.style.setProperty("--color-bookends-dark-text", darkTheme.textColor);
 
   // Handle wallpaper
   if (themeMode === "light" && lightTheme.isWallpaperEnabled) {

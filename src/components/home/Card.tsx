@@ -153,7 +153,7 @@ const Card: React.FC<CardProps> = ({
 
       {/* Customize Popup */}
       {isCustomizeOpen && (
-        <CustomizePopup onClose={() => setIsCustomizeOpen(false)} />
+        <CustomizePopup onClose={() => setIsCustomizeOpen(false)} journalId={id} />
       )}
     </div>
   );

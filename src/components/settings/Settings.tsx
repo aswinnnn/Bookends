@@ -128,10 +128,11 @@ const Settings = () => {
               <div>
                 <h2 className={`text-2xl font-bold rounded-full mb-4 text-center`}>Appearance Settings</h2>
                 <div className="space-y-6">
-                  {/* Light Theme Colors */}
+                  {/* Light Theme Settings */}
                   <div>
                     <h3 className="text-lg font-semibold mb-2">Light Theme</h3>
                     <div className="space-y-4">
+                      {/* Primary Color */}
                       <div className="flex items-center justify-between">
                         <span>Primary Color</span>
                         <input
@@ -141,6 +142,7 @@ const Settings = () => {
                           className="w-10 h-10 border-none cursor-pointer"
                         />
                       </div>
+                      {/* Secondary Color */}
                       <div className="flex items-center justify-between">
                         <span>Secondary Color</span>
                         <input
@@ -150,6 +152,7 @@ const Settings = () => {
                           className="w-10 h-10 border-none cursor-pointer"
                         />
                       </div>
+                      {/* Accent Color */}
                       <div className="flex items-center justify-between">
                         <span>Accent Color</span>
                         <input
@@ -159,15 +162,46 @@ const Settings = () => {
                           className="w-10 h-10 border-none cursor-pointer"
                         />
                       </div>
+                      {/* Text Color */}
+                      <div className="flex items-center justify-between">
+                        <span>Text Color</span>
+                        <input
+                          type="color"
+                          value={localLightTheme.textColor}
+                          onChange={(e) => handleColorChange("textColor", e.target.value, "light")}
+                          className="w-10 h-10 border-none cursor-pointer"
+                        />
+                      </div>
+                      {/* Font Title */}
+                      <div className="flex items-center justify-between">
+                        <span>Font Title</span>
+                        <input
+                          type="text"
+                          value={localLightTheme.fontTitle}
+                          onChange={(e) => handleColorChange("fontTitle", e.target.value, "light")}
+                          className="w-full px-2 py-1 border rounded"
+                        />
+                      </div>
+                      {/* Font Body */}
+                      <div className="flex items-center justify-between">
+                        <span>Font Body</span>
+                        <input
+                          type="text"
+                          value={localLightTheme.fontBody}
+                          onChange={(e) => handleColorChange("fontBody", e.target.value, "light")}
+                          className="w-full px-2 py-1 border rounded"
+                        />
+                      </div>
                     </div>
                   </div>
 
                   <hr className="my-6 border-gray-300 dark:border-gray-600" />
 
-                  {/* Dark Theme Colors */}
+                  {/* Dark Theme Settings */}
                   <div>
                     <h3 className="text-lg font-semibold mb-2">Dark Theme</h3>
                     <div className="space-y-4">
+                      {/* Primary Color */}
                       <div className="flex items-center justify-between">
                         <span>Primary Color</span>
                         <input
@@ -177,6 +211,7 @@ const Settings = () => {
                           className="w-10 h-10 border-none cursor-pointer"
                         />
                       </div>
+                      {/* Secondary Color */}
                       <div className="flex items-center justify-between">
                         <span>Secondary Color</span>
                         <input
@@ -186,6 +221,7 @@ const Settings = () => {
                           className="w-10 h-10 border-none cursor-pointer"
                         />
                       </div>
+                      {/* Accent Color */}
                       <div className="flex items-center justify-between">
                         <span>Accent Color</span>
                         <input
@@ -193,6 +229,36 @@ const Settings = () => {
                           value={localDarkTheme.accent}
                           onChange={(e) => handleColorChange("accent", e.target.value, "dark")}
                           className="w-10 h-10 border-none cursor-pointer"
+                        />
+                      </div>
+                      {/* Text Color */}
+                      <div className="flex items-center justify-between">
+                        <span>Text Color</span>
+                        <input
+                          type="color"
+                          value={localDarkTheme.textColor}
+                          onChange={(e) => handleColorChange("textColor", e.target.value, "dark")}
+                          className="w-10 h-10 border-none cursor-pointer"
+                        />
+                      </div>
+                      {/* Font Title */}
+                      <div className="flex items-center justify-between">
+                        <span>Font Title</span>
+                        <input
+                          type="text"
+                          value={localDarkTheme.fontTitle}
+                          onChange={(e) => handleColorChange("fontTitle", e.target.value, "dark")}
+                          className="w-full px-2 py-1 border rounded"
+                        />
+                      </div>
+                      {/* Font Body */}
+                      <div className="flex items-center justify-between">
+                        <span>Font Body</span>
+                        <input
+                          type="text"
+                          value={localDarkTheme.fontBody}
+                          onChange={(e) => handleColorChange("fontBody", e.target.value, "dark")}
+                          className="w-full px-2 py-1 border rounded"
                         />
                       </div>
                     </div>

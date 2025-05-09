@@ -76,17 +76,21 @@
     --font-display: 'Playfair Display', 'Times New Roman', serif;
     --font-body: 'Lexend Deca', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --font-mono: 'IBM Plex Mono', 'Courier New', Courier, monospace;
+    --font-dark-display: 'Playfair Display', 'Times New Roman', serif;
+    --font-dark-body: 'Lexend Deca', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     --breakpoint-3xl: 120rem;
     --color-bookends-primary: #ecfcca;
     --color-bookends-secondary: #DBF99A;
     --color-bookends-gray: #77878B;
     --color-bookends-titlebar: #192e03;
     --color-bookends-accent: #F9E0B2;
+    --color-bookends-text: #ffffff;
     --color-bookends-dark-primary: #ecfcca;
     --color-bookends-dark-secondary: #DBF99A;
     --color-bookends-dark-gray: #77878B;
     --color-bookends-dark-titlebar: #192e03;
     --color-bookends-dark-accent: #F9E0B2;
+    --color-bookends-dark-text: #ffffff;
     --ease-fluid: cubic-bezier(0.3, 0, 0, 1);
     --ease-snappy: cubic-bezier(0.2, 0, 0, 1);
 }

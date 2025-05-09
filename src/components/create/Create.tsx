@@ -7,14 +7,16 @@ import Switcher from './Switcher';
 import CustomizePopup from './CustomizePopup';
 import { CogIcon } from '@heroicons/react/24/outline';
 import { useSelected } from '../../context/SelectedContext';
+import { Journal } from '../../models/types';
 
 const Create = () => {
   const [currentDateTime, setCurrentDateTime] = useState('');
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const [isCustomizeOpen, setIsCustomizeOpen] = useState(false);
   const location = useLocation(); // Access location to retrieve state
-  const journalData = location.state?.journal; // Retrieve journal data from navigation state
+  const journalData: Journal = location.state?.journal; // Retrieve journal data from navigation state
   const {selected} = useSelected(); // Use the selected context
+  const [journalId, setJournalId] = useState<string>(journalData?.id || "new");
   
   useEffect(() => {
     const now = new Date();
@@ -68,13 +70,13 @@ const Create = () => {
           className="create-container h-full w-full flex flex-col items-center py-2 px-6"
         >
           {/* Navigation Buttons */}
-          <Switcher />
+          <Switcher setJournalId={setJournalId} />
 
           {/* Conditional Rendering for Home or Notebook */}
           {selected === 'home' ? (
             <Home />
           ) : (
-            <Notebook currentDateTime={currentDateTime} journalData={journalData} />
+            <Notebook currentDateTime={currentDateTime} journalData={journalData} journalId={journalId} setJournalId={setJournalId} />
           )}
         </div>
       </div>
@@ -100,7 +102,7 @@ const Create = () => {
 
       {/* Customize Popup */}
       {isCustomizeOpen && (
-        <CustomizePopup onClose={() => setIsCustomizeOpen(false)} />
+        <CustomizePopup onClose={() => setIsCustomizeOpen(false)} journalId={journalId} />
       )}
     </>
   );

@@ -6,6 +6,7 @@ use anyhow::Result;
 pub fn create_media(
     conn: &Connection,
     journal_id: String,
+    customenabled: bool,
     backgroundimage: Option<String>,
     isbgenabled: bool,
     primary_color: Option<String>,
@@ -17,6 +18,7 @@ pub fn create_media(
 ) -> Result<()> {
     let media = Media {
         journal_id,
+        customenabled,
         backgroundimage,
         isbgenabled,
         primary_color,
@@ -35,6 +37,7 @@ pub fn create_media(
 pub fn update_media(
     conn: &Connection,
     journal_id: String,
+    customenabled: bool,
     backgroundimage: Option<String>,
     isbgenabled: Option<bool>,
     primary_color: Option<String>,
@@ -46,6 +49,7 @@ pub fn update_media(
 ) -> Result<()> {
     let media = Media {
         journal_id,
+        customenabled,
         backgroundimage,
         isbgenabled: isbgenabled.unwrap_or(false), // Default to false if not provided
         primary_color,
@@ -77,14 +81,15 @@ pub fn get_all_media(conn: &Connection) -> Result<Vec<Media>> {
     let media_iter = stmt.query_map([], |row| {
         Ok(Media {
             journal_id: row.get(0)?,
-            backgroundimage: row.get(1)?,
-            isbgenabled: row.get(2)?,
-            primary_color: row.get(3)?,
-            secondary_color: row.get(4)?,
-            text_color: row.get(5)?,
-            song: row.get(6)?,
-            font_title: row.get(7)?,
-            font_body: row.get(8)?,
+            customenabled: row.get(1)?,
+            backgroundimage: row.get(2)?,
+            isbgenabled: row.get(3)?,
+            primary_color: row.get(4)?,
+            secondary_color: row.get(5)?,
+            text_color: row.get(6)?,
+            song: row.get(7)?,
+            font_title: row.get(8)?,
+            font_body: row.get(9)?,
         })
     })?;
 

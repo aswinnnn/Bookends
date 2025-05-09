@@ -6,6 +6,7 @@ use services::db::DatabaseManager;
 use tauri::{async_runtime::Mutex, Manager};
 use commands::db::db_startup;
 use commands::journals::{create_journal, update_journal, delete_journal, get_journal, get_journals};
+use commands::media::{create_media,get_media, update_media, delete_media, get_all_media};
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
@@ -30,6 +31,11 @@ pub fn run() {
             delete_journal,
             get_journal,
             get_journals,
+            get_media,
+            create_media,
+            update_media,
+            delete_media,
+            get_all_media
             ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
