@@ -8,6 +8,7 @@ import CustomizePopup from './CustomizePopup';
 import { CogIcon } from '@heroicons/react/24/outline';
 import { useSelected } from '../../context/SelectedContext';
 import { Journal } from '../../models/types';
+import { useTheme } from '../../ThemeContext';
 
 const Create = () => {
   const [currentDateTime, setCurrentDateTime] = useState('');
@@ -17,7 +18,8 @@ const Create = () => {
   const journalData: Journal = location.state?.journal; // Retrieve journal data from navigation state
   const {selected} = useSelected(); // Use the selected context
   const [journalId, setJournalId] = useState<string>(journalData?.id || "new");
-  
+  const {loadTheme} = useTheme();
+
   useEffect(() => {
     const now = new Date();
     const formattedDateTime = now.toLocaleString('en-US', {
@@ -58,6 +60,12 @@ const Create = () => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, [contextMenu]);
+
+  useEffect(() => {
+    if (selected === 'home') {
+      loadTheme();
+    }
+  }, [selected]);
 
   return (
     <>

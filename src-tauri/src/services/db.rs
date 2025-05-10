@@ -150,16 +150,18 @@ pub fn db_update_media(conn: &Connection, media: &Media) -> Result<()> {
     conn.execute(
         "UPDATE media
          SET backgroundimage = COALESCE(?1, backgroundimage),
-             isbgenabled = COALESCE(?2, isbgenabled),
-             primary_color = COALESCE(?3, primary_color),
-             secondary_color = COALESCE(?4, secondary_color),
-             text_color = COALESCE(?5, text_color),
-             song = COALESCE(?6, song),
-             font_title = COALESCE(?7, font_title),
-             font_body = COALESCE(?8, font_body)
-         WHERE journal_id = ?9",
+            customenabled = COALESCE(?2, customenabled),
+             isbgenabled = COALESCE(?3, isbgenabled),
+             primary_color = COALESCE(?4, primary_color),
+             secondary_color = COALESCE(?5, secondary_color),
+             text_color = COALESCE(?6, text_color),
+             song = COALESCE(?7, song),
+             font_title = COALESCE(?8, font_title),
+             font_body = COALESCE(?9, font_body)
+         WHERE journal_id = ?10",
         params![
             media.backgroundimage,
+            media.customenabled,
             media.isbgenabled,
             media.primary_color,
             media.secondary_color,
@@ -176,7 +178,7 @@ pub fn db_update_media(conn: &Connection, media: &Media) -> Result<()> {
 // Fetch a media record by journal_id
 pub fn db_get_media(conn: &Connection, journal_id: &str) -> Result<Option<Media>> {
     let mut stmt = conn.prepare(
-        "SELECT journal_id, backgroundimage, isbgenabled, primary_color, secondary_color, text_color, song, font_title, font_body
+        "SELECT journal_id, customenabled, backgroundimage, isbgenabled, primary_color, secondary_color, text_color, song, font_title, font_body
          FROM media
          WHERE journal_id = ?1",
     )?;

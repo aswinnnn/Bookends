@@ -179,7 +179,7 @@ const Settings = () => {
                           type="text"
                           value={localLightTheme.fontTitle}
                           onChange={(e) => handleColorChange("fontTitle", e.target.value, "light")}
-                          className="w-full px-2 py-1 border rounded"
+                          className="w-fit px-2 py-1 border rounded"
                         />
                       </div>
                       {/* Font Body */}
@@ -189,7 +189,7 @@ const Settings = () => {
                           type="text"
                           value={localLightTheme.fontBody}
                           onChange={(e) => handleColorChange("fontBody", e.target.value, "light")}
-                          className="w-full px-2 py-1 border rounded"
+                          className="w-fit px-2 py-1 border rounded"
                         />
                       </div>
                     </div>
@@ -243,22 +243,22 @@ const Settings = () => {
                       </div>
                       {/* Font Title */}
                       <div className="flex items-center justify-between">
-                        <span>Font Title</span>
+                        <span>Title Font</span>
                         <input
                           type="text"
                           value={localDarkTheme.fontTitle}
                           onChange={(e) => handleColorChange("fontTitle", e.target.value, "dark")}
-                          className="w-full px-2 py-1 border rounded"
+                          className="w-fit px-2 py-1 border rounded"
                         />
                       </div>
                       {/* Font Body */}
                       <div className="flex items-center justify-between">
-                        <span>Font Body</span>
+                        <span>Body Font</span>
                         <input
                           type="text"
                           value={localDarkTheme.fontBody}
                           onChange={(e) => handleColorChange("fontBody", e.target.value, "dark")}
-                          className="w-full px-2 py-1 border rounded"
+                          className="w-fit px-2 py-1 border rounded"
                         />
                       </div>
                     </div>

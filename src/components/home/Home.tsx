@@ -5,10 +5,13 @@ import SearchTools from "./SearchTools";
 import { get_journals } from "../../services/journal";
 import { Journal } from "../../models/types";
 import { useSelected } from "../../context/SelectedContext";
+import { getMedia } from "../../services/media";
+import { useTheme } from "../../ThemeContext";
 
 const ITEMS_PER_PAGE = 12; // Number of cards per page
 
 const Home = () => {
+  const {applyTemporaryTheme} = useTheme();
   const {setSelected} = useSelected();
   const [journals, setJournals] = useState<Journal[]>([]); // Store all journals
   const [filteredJournals, setFilteredJournals] = useState<Journal[]>([]); // Store filtered journals
@@ -91,13 +94,35 @@ const Home = () => {
     );
   };
 
-  // Handle card click
-  const handleCardClick = (journal: Journal) => {
+  // // Handle card click
+  // const handleCardClick = (journal: Journal) => {
+  //   navigate("/create", { state: { journal } });
+  //   setSelected("create");
+  //   console.log("Navigating to create page with journal:", journal);
+  // };
+
+const handleCardClick = async (journal: Journal) => {
+  try {
+    const media = await getMedia(journal.id); // Fetch media row
+    if (media && media.customenabled) {
+      applyTemporaryTheme({
+        primary: media.primary_color || "#ffffff",
+        secondary: media.secondary_color || "#f0f0f0",
+        accent: media.text_color || "#000000",
+        wallpaperImage: media.backgroundimage || "",
+        isWallpaperEnabled: media.isbgenabled || false,
+        fontTitle: media.font_title || "Arial",
+        fontBody: media.font_body || "Roboto",
+        textColor: media.text_color || "#000000",
+      }); // Apply theme
+    }
     navigate("/create", { state: { journal } });
     setSelected("create");
     console.log("Navigating to create page with journal:", journal);
-  };
-
+  } catch (error) {
+    console.error("Failed to fetch media for journal:", error);
+  }
+};
   // Paginate journals
   const paginatedJournals = filteredJournals.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,

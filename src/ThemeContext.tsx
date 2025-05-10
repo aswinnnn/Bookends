@@ -20,6 +20,7 @@ interface ThemeContextType {
   toggleThemeMode: () => void;
   updateTheme: (lightTheme?: Partial<Theme>, darkTheme?: Partial<Theme>) => void;
   loadTheme: () => void;
+  applyTemporaryTheme: (theme: Theme) => void; // New method to apply a temporary theme
 }
 
 const defaultLightTheme: Theme = {
@@ -30,12 +31,12 @@ const defaultLightTheme: Theme = {
   isWallpaperEnabled: false,
   fontTitle: "Playfair Display",
   fontBody: "Lexend Deca",
-  textColor: "#ffffff",
+  textColor: "#000000",
 };
 
 const defaultDarkTheme: Theme = {
   primary: "#241f31",
-  secondary:"#3d3846",
+  secondary: "#3d3846",
   accent: "#813d9c",
   wallpaperImage: "",
   isWallpaperEnabled: false,
@@ -93,36 +94,39 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     return storedDarkTheme ? JSON.parse(storedDarkTheme) : defaultDarkTheme;
   });
 
+  const [temporaryTheme, setTemporaryTheme] = useState<Theme | null>(null); // Temporary theme state
+
   // Load the theme and apply CSS variables
   const loadTheme = () => {
-    const storedThemeMode = localStorage.getItem("themeMode");
-    const storedLightTheme = localStorage.getItem("lightTheme");
-    const storedDarkTheme = localStorage.getItem("darkTheme");
+    setTemporaryTheme(null); // Clear temporary theme
+    const theme = themeMode === "dark" ? darkTheme : lightTheme;
+    updateCSSVariables(lightTheme, darkTheme, themeMode);
+    document.documentElement.classList.toggle("dark", themeMode === "dark");
+  };
 
-    const mode = storedThemeMode === "dark" ? "dark" : "light";
-    const loadedLightTheme = storedLightTheme ? JSON.parse(storedLightTheme) : defaultLightTheme;
-    const loadedDarkTheme = storedDarkTheme ? JSON.parse(storedDarkTheme) : defaultDarkTheme;
-
-    setThemeMode(mode);
-    setLightTheme(loadedLightTheme);
-    setDarkTheme(loadedDarkTheme);
-    updateCSSVariables(loadedLightTheme, loadedDarkTheme, mode);
-    document.documentElement.classList.toggle("dark", mode === "dark");
+  // Apply a temporary theme
+  const applyTemporaryTheme = (theme: Theme) => {
+    setTemporaryTheme(theme);
+    updateCSSVariables(theme, theme, themeMode); // Apply temporary theme to both modes
   };
 
   // Update local storage and the `document` class when the theme mode changes
   useEffect(() => {
-    localStorage.setItem("themeMode", themeMode);
-    document.documentElement.classList.toggle("dark", themeMode === "dark");
-    updateCSSVariables(lightTheme, darkTheme, themeMode);
-  }, [themeMode, lightTheme, darkTheme]);
+    if (!temporaryTheme) {
+      localStorage.setItem("themeMode", themeMode);
+      document.documentElement.classList.toggle("dark", themeMode === "dark");
+      updateCSSVariables(lightTheme, darkTheme, themeMode);
+    }
+  }, [themeMode, lightTheme, darkTheme, temporaryTheme]);
 
   // Update local storage and CSS variables when the themes change
   useEffect(() => {
-    localStorage.setItem("lightTheme", JSON.stringify(lightTheme));
-    localStorage.setItem("darkTheme", JSON.stringify(darkTheme));
-    updateCSSVariables(lightTheme, darkTheme, themeMode);
-  }, [lightTheme, darkTheme, themeMode]);
+    if (!temporaryTheme) {
+      localStorage.setItem("lightTheme", JSON.stringify(lightTheme));
+      localStorage.setItem("darkTheme", JSON.stringify(darkTheme));
+      updateCSSVariables(lightTheme, darkTheme, themeMode);
+    }
+  }, [lightTheme, darkTheme, themeMode, temporaryTheme]);
 
   // Toggle between light and dark theme modes
   const toggleThemeMode = () => {
@@ -140,7 +144,17 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   };
 
   return (
-    <ThemeContext.Provider value={{ themeMode, lightTheme, darkTheme, toggleThemeMode, updateTheme, loadTheme }}>
+    <ThemeContext.Provider
+      value={{
+        themeMode,
+        lightTheme,
+        darkTheme,
+        toggleThemeMode,
+        updateTheme,
+        loadTheme,
+        applyTemporaryTheme, // Expose the method to apply a temporary theme
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   );
