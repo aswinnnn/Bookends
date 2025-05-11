@@ -16,6 +16,8 @@ const Create = () => {
   const [isCustomizeOpen, setIsCustomizeOpen] = useState(false);
   const location = useLocation(); // Access location to retrieve state
   const journalData: Journal = location.state?.journal; // Retrieve journal data from navigation state
+  console.log(journalData);
+  console.info("above is journal data rn")
   const {selected} = useSelected(); // Use the selected context
   const [journalId, setJournalId] = useState<string>(journalData?.id || "new");
   const {loadTheme} = useTheme();
@@ -63,6 +65,8 @@ const Create = () => {
 
   useEffect(() => {
     if (selected === 'home') {
+      setJournalId('new');
+      console.info('set journalid = new cuz ya selected home')
       loadTheme();
     }
   }, [selected]);
@@ -82,7 +86,7 @@ const Create = () => {
 
           {/* Conditional Rendering for Home or Notebook */}
           {selected === 'home' ? (
-            <Home />
+            <Home setJournalId={setJournalId}/>
           ) : (
             <Notebook currentDateTime={currentDateTime} journalData={journalData} journalId={journalId} setJournalId={setJournalId} />
           )}

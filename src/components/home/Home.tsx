@@ -10,7 +10,11 @@ import { useTheme } from "../../ThemeContext";
 
 const ITEMS_PER_PAGE = 12; // Number of cards per page
 
-const Home = () => {
+interface HomeProps {
+  setJournalId:  React.Dispatch<React.SetStateAction<string>>;
+}
+
+const Home: React.FC<HomeProps> = ({setJournalId}) => {
   const {applyTemporaryTheme} = useTheme();
   const {setSelected} = useSelected();
   const [journals, setJournals] = useState<Journal[]>([]); // Store all journals
@@ -111,11 +115,14 @@ const handleCardClick = async (journal: Journal) => {
         accent: media.text_color || "#000000",
         wallpaperImage: media.backgroundimage || "",
         isWallpaperEnabled: media.isbgenabled || false,
-        fontTitle: media.font_title || "Arial",
-        fontBody: media.font_body || "Roboto",
+        fontTitle: media.font_title || "Playfair Display",
+        fontBody: media.font_body || "Lexend Deca",
         textColor: media.text_color || "#000000",
       }); // Apply theme
     }
+    setJournalId(journal.id); 
+    console.info("[handleCardClick] set journalId to", journal.id);
+    // Set journal ID then navigate cuz state is too late sometimes and it ends up creating a new journal.
     navigate("/create", { state: { journal } });
     setSelected("create");
     console.log("Navigating to create page with journal:", journal);

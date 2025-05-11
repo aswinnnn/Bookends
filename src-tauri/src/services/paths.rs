@@ -1,6 +1,6 @@
+use anyhow::Result;
 use dirs;
 use std::path::{Path, PathBuf};
-use anyhow::Result;
 
 use super::db;
 
@@ -14,7 +14,10 @@ pub fn db_path() -> PathBuf {
     if !data_path().join(".bookends.dat").exists() {
         std::fs::create_dir_all(&data_path()).unwrap();
         std::fs::File::create_new(&data_path().join(".bookends.dat")).unwrap();
-        println!("[db_path()] Created database file at {:?}", data_path().join(".bookends.dat"));
+        println!(
+            "[db_path()] Created database file at {:?}",
+            data_path().join(".bookends.dat")
+        );
     }
     data_path().join(".bookends.dat")
 }
@@ -29,20 +32,31 @@ pub fn themes_path() -> PathBuf {
 
 pub fn create_paths() -> Result<()> {
     if !data_path().exists() {
-        eprintln!("[services::paths] There is no data path at {:?}", data_path());
+        eprintln!(
+            "[services::paths] There is no data path at {:?}",
+            data_path()
+        );
         Ok(())
-    }
-    else {
+    } else {
         if let Err(e) = std::fs::File::create_new(&db_path()) {
-            eprintln!("[services::paths] Created/Found database file at {:?}: {}", db_path(), e);
+            eprintln!(
+                "[services::paths] Created/Found database file at {:?}: {}",
+                db_path(),
+                e
+            );
         }
         if !settings_path().exists() {
             std::fs::File::create_new(&settings_path())?;
-            println!("[services::paths] Created settings file at {:?}", settings_path());
-        }
-        else if !themes_path().exists() {
+            println!(
+                "[services::paths] Created settings file at {:?}",
+                settings_path()
+            );
+        } else if !themes_path().exists() {
             std::fs::create_dir_all(&themes_path())?;
-            println!("[services::paths] Created themes folder at {:?}", themes_path());
+            println!(
+                "[services::paths] Created themes folder at {:?}",
+                themes_path()
+            );
         }
         Ok(())
     }

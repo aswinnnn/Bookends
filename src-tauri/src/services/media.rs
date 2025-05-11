@@ -1,6 +1,6 @@
-use rusqlite::Connection;
 use crate::{models::Media, services::db};
 use anyhow::Result;
+use rusqlite::Connection;
 
 // Create a new media record
 pub fn create_media(

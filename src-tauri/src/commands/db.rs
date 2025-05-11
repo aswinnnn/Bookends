@@ -1,10 +1,12 @@
-use crate::{models, services::db::{self, create_tables, DatabaseManager}};
-use tauri::{async_runtime::Mutex, Emitter, Manager};
 use crate::services::paths;
+use crate::{
+    models,
+    services::db::{self, create_tables, DatabaseManager},
+};
+use tauri::{async_runtime::Mutex, Emitter, Manager};
 
 #[tauri::command]
 pub async fn db_startup(app: tauri::AppHandle, window: tauri::Window) -> Result<(), String> {
-
     // Create the necessary paths for the database and everything else, if it does not exist:
     paths::create_paths().map_err(|e| e.to_string())?;
     // Initialize the database manager

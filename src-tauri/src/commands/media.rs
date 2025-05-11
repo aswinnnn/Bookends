@@ -1,10 +1,10 @@
-use tauri::async_runtime::Mutex;
-use tauri::{AppHandle, Emitter, Manager, Window};
+use crate::models;
 use crate::services::db::DatabaseManager;
 use crate::services::media;
-use crate::models;
 use anyhow::Result;
 use fastrand::i8;
+use tauri::async_runtime::Mutex;
+use tauri::{AppHandle, Emitter, Manager, Window};
 
 #[tauri::command]
 pub async fn create_media(
@@ -51,7 +51,9 @@ pub async fn create_media(
     .map_err(|e| e.to_string());
 
     if result.is_ok() {
-        window.emit("db:media-created", ()).map_err(|e| e.to_string())?;
+        window
+            .emit("db:media-created", ())
+            .map_err(|e| e.to_string())?;
     } else {
         window
             .emit("db:error", "Failed to create media")
@@ -96,7 +98,9 @@ pub async fn update_media(
     .map_err(|e| e.to_string());
 
     if result.is_ok() {
-        window.emit("db:media-updated", ()).map_err(|e| e.to_string())?;
+        window
+            .emit("db:media-updated", ())
+            .map_err(|e| e.to_string())?;
     } else {
         window
             .emit("db:error", "Failed to update media")
@@ -119,7 +123,9 @@ pub async fn delete_media(
     let result = media::delete_media(&conn, journal_id).map_err(|e| e.to_string());
 
     if result.is_ok() {
-        window.emit("db:media-deleted", ()).map_err(|e| e.to_string())?;
+        window
+            .emit("db:media-deleted", ())
+            .map_err(|e| e.to_string())?;
     } else {
         window
             .emit("db:error", "Failed to delete media")
@@ -142,7 +148,9 @@ pub async fn get_media(
     let result = media::get_media(&conn, journal_id).map_err(|e| e.to_string());
 
     if result.is_ok() {
-        window.emit("db:media-fetched", ()).map_err(|e| e.to_string())?;
+        window
+            .emit("db:media-fetched", ())
+            .map_err(|e| e.to_string())?;
     } else {
         window
             .emit("db:error", "Failed to fetch media")
@@ -153,10 +161,7 @@ pub async fn get_media(
 }
 
 #[tauri::command]
-pub async fn get_all_media(
-    app: AppHandle,
-    window: Window,
-) -> Result<Vec<models::Media>, String> {
+pub async fn get_all_media(app: AppHandle, window: Window) -> Result<Vec<models::Media>, String> {
     let db_st = app.state::<Mutex<DatabaseManager>>();
     let db_manager = db_st.lock().await;
     let conn = db_manager.get_connection().map_err(|e| e.to_string())?;
@@ -164,7 +169,9 @@ pub async fn get_all_media(
     let result = media::get_all_media(&conn).map_err(|e| e.to_string());
 
     if result.is_ok() {
-        window.emit("db:media-list-fetched", ()).map_err(|e| e.to_string())?;
+        window
+            .emit("db:media-list-fetched", ())
+            .map_err(|e| e.to_string())?;
     } else {
         window
             .emit("db:error", "Failed to fetch media list")

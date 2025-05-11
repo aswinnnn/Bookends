@@ -13,7 +13,7 @@ import { SelectedProvider } from "./context/SelectedContext";
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null); // Use `null` to indicate loading state
   const navigate = useNavigate();
-  const { themeMode } = useTheme();
+  const { themeMode, lightTheme, darkTheme } = useTheme();
 
   // Check login status on app load
   useEffect(() => {
@@ -38,13 +38,15 @@ function App() {
 
     isLoggedIn ? navigate("/create") : navigate("/intro");
   }, [isLoggedIn]);
+  const lightw = lightTheme.wallpaperImage;
+  const darkw = darkTheme.wallpaperImage;
 
   return (
     <SelectedProvider>
       <div
         className={`app-container wallpaper bg-no-repeat bg-center bg-cover ${
-          themeMode === "light" ? "bg-[lightTheme.wallpaperImage]" : "bg-[darkTheme.wallpaperImage]"
-        } ${themeMode === "light" ? "bg-bookends-primary" : "bg-bookends-dark-primary"
+          themeMode === "light" ? "bg-[" + lightw + "]" : "bg-[" + darkw + "]"
+        } ${themeMode === "light" && lightTheme.isWallpaperEnabled && darkTheme.isWallpaperEnabled ? "bg-bookends-primary" : "bg-bookends-dark-primary"
         } ${themeMode === "light" ? "text-bookends-text" : "text-bookends-dark-text"
         } ${themeMode === "light" ? "border-bookends-secondary" : "border-bookends-dark-secondary"
         } ${themeMode === "light" ? "shadow-light" : "shadow-dark"

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getMedia, createMedia, updateMedia, Media } from "../../services/media";
-
+import {FolderArrowDownIcon} from "@heroicons/react/24/outline";
+import {open} from "@tauri-apps/plugin-dialog";
 interface CustomizePopupProps {
   onClose: () => void;
   journalId: string;
@@ -69,6 +70,24 @@ const CustomizePopup: React.FC<CustomizePopupProps> = ({ onClose, journalId }) =
     } finally {
       onClose();
     }
+  };
+
+  const handleFilePicker = async () => {
+    await open({
+      multiple: false,
+      directory: false,
+      filters: [
+        {
+          name: "Images",
+          extensions: ["jpg", "jpeg", "png", "gif"],
+        },
+      ],
+    }).then((filePath) => {
+      if (filePath) {
+        setWallpaperImage(filePath as string);
+      }
+    })
+    console.log("File picker clicked");
   };
 
   if (isLoading) {
@@ -151,12 +170,20 @@ const CustomizePopup: React.FC<CustomizePopupProps> = ({ onClose, journalId }) =
           {/* Wallpaper */}
           <div>
             <label className="block text-sm text-white mb-1">Wallpaper Image Path/URL</label>
-            <input
-              type="text"
-              value={wallpaperImage}
-              onChange={(e) => setWallpaperImage(e.target.value)}
-              className="w-full rounded-md bg-transparent border border-white/20 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
-            />
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                value={wallpaperImage}
+                onChange={(e) => setWallpaperImage(e.target.value)}
+                className="w-full rounded-md bg-transparent border border-white/20 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+              />
+              <button
+                onClick={handleFilePicker}
+                className="p-2 rounded-md bg-gray-700 text-white hover:bg-gray-600"
+              >
+                <FolderArrowDownIcon name="folder-arrow-down" className="w-5 h-5" />
+              </button>
+            </div>
             <div className="mt-2 flex items-center gap-2">
               <input
                 type="checkbox"
