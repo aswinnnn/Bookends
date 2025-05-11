@@ -45,8 +45,8 @@ function App() {
     <SelectedProvider>
       <div
         className={`app-container wallpaper bg-no-repeat bg-center bg-cover ${
-          themeMode === "light" ? "bg-[" + lightw + "]" : "bg-[" + darkw + "]"
-        } ${themeMode === "light" && lightTheme.isWallpaperEnabled && darkTheme.isWallpaperEnabled ? "bg-bookends-primary" : "bg-bookends-dark-primary"
+          themeMode === "light"  && lightTheme.isWallpaperEnabled && darkTheme.isWallpaperEnabled ? "bg-[" + lightw + "]" : "bg-[" + darkw + "]"
+        } ${themeMode === "light" ? "bg-bookends-primary" : "bg-bookends-dark-primary"
         } ${themeMode === "light" ? "text-bookends-text" : "text-bookends-dark-text"
         } ${themeMode === "light" ? "border-bookends-secondary" : "border-bookends-dark-secondary"
         } ${themeMode === "light" ? "shadow-light" : "shadow-dark"

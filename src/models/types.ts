@@ -31,7 +31,6 @@ class RawJournal implements RawJournal {
 }
 
 const toJournal = (j: RawJournal): Journal => {
-    console.log("RawJournal ===> ", j.created_at);
     return new Journal(
         j.id,
         j.title,

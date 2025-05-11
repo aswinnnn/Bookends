@@ -7,10 +7,12 @@ interface NotebookProps {
   currentDateTime: string;
   journalData?: Journal,
   journalId: string;
-  setJournalId: React.Dispatch<React.SetStateAction<string>>
+  setJournalId: React.Dispatch<React.SetStateAction<string>>;
+  updatingState: boolean;
+  setUpdatingState: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Notebook: React.FC<NotebookProps> = ({ currentDateTime, journalData, journalId, setJournalId }) => {
+const Notebook: React.FC<NotebookProps> = ({ currentDateTime, journalData, journalId, setJournalId, updatingState, setUpdatingState }) => {
   const journal = useRef<HTMLDivElement>(null);
   const title = useRef<HTMLInputElement>(null);
   const [journalTitle, setJournalTitle] = useState<string>(journalData?.title || "");
@@ -56,26 +58,37 @@ const Notebook: React.FC<NotebookProps> = ({ currentDateTime, journalData, journ
   }, [journal]);
 
   useEffect(() => {
-    if (journalData) {
-      setJournalId(journalData.id || "new");
-      setJournalTitle(journalData.title || "");
-      setSelectedTags(journalData.tags || []);
+    if (journalData===undefined || journalData===null) {return}
+
+    if (journalData && updatingState) {
+      console.log("Updating state with journal data:", journalData);
+      console.log("updating state value: ", updatingState);
+      setJournalId(journalData.id);
+      setJournalTitle(journalData.title);
+      setSelectedTags(journalData.tags);
+      setUpdatingState(false);
     }
   }, [journalData]);
 
   useEffect(() => {
+    console.log("[title] updatingState:", updatingState);
     if (journalId !== "new") {
+      if (!updatingState) {
+        console.log("bitch ", updatingState)
       update_journal(journalId, journalTitle, null, null, null);
       console.log("Title updated:", journalId, journalTitle);
+      }
     }
-  }, [journalTitle]);
+  }, [journalTitle, journalId]);
 
   useEffect(() => {
     if (journalId !== "new") {
-      update_journal(journalId, null, null, null, selectedTags);
+      if (!updatingState) {
+        update_journal(journalId, null, null, null, selectedTags);
       console.log("Tags updated:", journalId, selectedTags);
+      }
     }
-  }, [selectedTags]);
+  }, [selectedTags, journalId]);
 
   const handleTagInputChange = () => {
     setTagInput(tagInputRef.current?.textContent || "");
@@ -202,6 +215,7 @@ const Notebook: React.FC<NotebookProps> = ({ currentDateTime, journalData, journ
         width: `${width}px`, // Dynamically apply the width
       }}
       data-journalid={journalId}
+      data-updating={updatingState}
     >
       {/* Resizer */}
       <div

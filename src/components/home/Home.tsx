@@ -7,14 +7,16 @@ import { Journal } from "../../models/types";
 import { useSelected } from "../../context/SelectedContext";
 import { getMedia } from "../../services/media";
 import { useTheme } from "../../ThemeContext";
+import { set } from "date-fns";
 
 const ITEMS_PER_PAGE = 12; // Number of cards per page
 
 interface HomeProps {
   setJournalId:  React.Dispatch<React.SetStateAction<string>>;
+  setUpdatingState: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Home: React.FC<HomeProps> = ({setJournalId}) => {
+const Home: React.FC<HomeProps> = ({setJournalId, setUpdatingState}) => {
   const {applyTemporaryTheme} = useTheme();
   const {setSelected} = useSelected();
   const [journals, setJournals] = useState<Journal[]>([]); // Store all journals
@@ -120,6 +122,7 @@ const handleCardClick = async (journal: Journal) => {
         textColor: media.text_color || "#000000",
       }); // Apply theme
     }
+    setUpdatingState(true); // will be set to false when state finally gets there => Notebook.tsx
     setJournalId(journal.id); 
     console.info("[handleCardClick] set journalId to", journal.id);
     // Set journal ID then navigate cuz state is too late sometimes and it ends up creating a new journal.

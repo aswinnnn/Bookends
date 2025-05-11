@@ -20,6 +20,7 @@ const Create = () => {
   console.info("above is journal data rn")
   const {selected} = useSelected(); // Use the selected context
   const [journalId, setJournalId] = useState<string>(journalData?.id || "new");
+  const [updatingState, setUpdatingState] = useState<boolean>(false);
   const {loadTheme} = useTheme();
 
   useEffect(() => {
@@ -66,7 +67,8 @@ const Create = () => {
   useEffect(() => {
     if (selected === 'home') {
       setJournalId('new');
-      console.info('set journalid = new cuz ya selected home')
+      console.info('[create.tsx] set journalid = new and cleared location state')
+      location.state = null;
       loadTheme();
     }
   }, [selected]);
@@ -86,9 +88,9 @@ const Create = () => {
 
           {/* Conditional Rendering for Home or Notebook */}
           {selected === 'home' ? (
-            <Home setJournalId={setJournalId}/>
+            <Home setJournalId={setJournalId} setUpdatingState={setUpdatingState}/>
           ) : (
-            <Notebook currentDateTime={currentDateTime} journalData={journalData} journalId={journalId} setJournalId={setJournalId} />
+            <Notebook currentDateTime={currentDateTime} journalData={journalData} journalId={journalId} setJournalId={setJournalId} updatingState={updatingState} setUpdatingState={setUpdatingState} />
           )}
         </div>
       </div>
