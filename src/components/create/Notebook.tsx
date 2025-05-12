@@ -82,6 +82,10 @@ const Notebook: React.FC<NotebookProps> = ({ currentDateTime, journalData, journ
   }, [journalTitle, journalId]);
 
   useEffect(() => {
+    if (selectedTags.length===1 && selectedTags.includes("")) {
+      console.info("updating tags skipped cuz its empty");
+      return
+    }
     if (journalId !== "new") {
       if (!updatingState) {
         update_journal(journalId, null, null, null, selectedTags);

@@ -5,7 +5,7 @@ import Notebook from './Notebook';
 import Home from '../home/Home';
 import Switcher from './Switcher';
 import CustomizePopup from './CustomizePopup';
-import { CogIcon } from '@heroicons/react/24/outline';
+import { CheckIcon, CogIcon } from '@heroicons/react/24/outline';
 import { useSelected } from '../../context/SelectedContext';
 import { Journal } from '../../models/types';
 import { useTheme } from '../../ThemeContext';
@@ -102,7 +102,17 @@ const Create = () => {
           style={{ top: contextMenu.y, left: contextMenu.x }}
         >
           <button
-            className="flex items-center gap-2 px-4 py-2 text-sm text-white hover:bg-white/20 dark:text-gray-300 dark:hover:bg-black/20 rounded-md"
+            className="flex w-full items-center gap-2 px-4 py-2 text-sm text-white hover:bg-white/20 dark:text-gray-300 dark:hover:bg-black/20 rounded-md"
+            onClick={() => {
+              setIsCustomizeOpen(true);
+              setContextMenu(null);
+            }}
+          >
+            <CheckIcon className="h-5 w-5" />
+            Toolbar
+          </button>
+          <button
+            className="flex w-full items-center gap-2 px-4 py-2 text-sm text-white hover:bg-white/20 dark:text-gray-300 dark:hover:bg-black/20 rounded-md"
             onClick={() => {
               setIsCustomizeOpen(true);
               setContextMenu(null);

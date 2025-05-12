@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Sidepanel from "../Sidepanel";
 import { useTheme, Theme } from "../../ThemeContext";
-
+import {open} from "@tauri-apps/plugin-dialog";
+import {FolderIcon} from "@heroicons/react/24/outline";
 const Settings = () => {
   const { lightTheme, darkTheme, updateTheme, themeMode } = useTheme();
   const [activeTab, setActiveTab] = useState<"general" | "appearance" | "privacy" | "misc">("appearance");
@@ -11,6 +12,10 @@ const Settings = () => {
     { light: lightTheme, dark: darkTheme },
   ]);
   const [historyIndex, setHistoryIndex] = useState(0);
+  const [lightWallpaperImage, setLightWallpaperImage] = useState(lightTheme.wallpaperImage || "");
+  const [darkWallpaperImage, setDarkWallpaperImage] = useState(darkTheme.wallpaperImage || "");
+  const [isLightWallpaperEnabled, setIsLightWallpaperEnabled] = useState(lightTheme.isWallpaperEnabled || false);
+  const [isDarkWallpaperEnabled, setIsDarkWallpaperEnabled] = useState(darkTheme.isWallpaperEnabled || false);
 
   // Sync local themes with the global themes
   useEffect(() => {
@@ -34,6 +39,24 @@ const Settings = () => {
       addToHistory(localLightTheme, updatedDarkTheme);
     }
   };
+
+  const handleWallpaperChange = (key: "wallpaperImage" | "isWallpaperEnabled", value: string | boolean, mode: "light" | "dark") => {
+  if (mode === "light") {
+    const updatedLightTheme = { ...localLightTheme, [key]: value };
+    setLocalLightTheme(updatedLightTheme);
+    updateTheme(updatedLightTheme, undefined);
+    addToHistory(updatedLightTheme, localDarkTheme);
+    if (key === "wallpaperImage") setLightWallpaperImage(value as string);
+    if (key === "isWallpaperEnabled") setIsLightWallpaperEnabled(value as boolean);
+  } else {
+    const updatedDarkTheme = { ...localDarkTheme, [key]: value };
+    setLocalDarkTheme(updatedDarkTheme);
+    updateTheme(undefined, updatedDarkTheme);
+    addToHistory(localLightTheme, updatedDarkTheme);
+    if (key === "wallpaperImage") setDarkWallpaperImage(value as string);
+    if (key === "isWallpaperEnabled") setIsDarkWallpaperEnabled(value as boolean);
+  }
+};
 
   // Undo functionality
   const undo = () => {
@@ -192,6 +215,43 @@ const Settings = () => {
                           className="w-fit px-2 py-1 border rounded"
                         />
                       </div>
+                      {/* Light Theme Wallpaper */}
+<div>
+  <h3 className="text-lg font-semibold mb-2">Wallpaper (Light Theme)</h3>
+  <div className="space-y-4">
+    <div className="flex items-center gap-2">
+      <input
+        type="text"
+        value={lightWallpaperImage}
+        onChange={(e) => handleWallpaperChange("wallpaperImage", e.target.value, "light")}
+        className="w-full rounded-md bg-transparent border border-white/20 px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-black/20"
+      />
+      <button
+        onClick={async () => {
+          const filePath = await open({
+            multiple: false,
+            directory: false,
+            filters: [{ name: "Images", extensions: ["jpg", "jpeg", "png", "gif"] }],
+          });
+          if (filePath) handleWallpaperChange("wallpaperImage", filePath as string, "light");
+        }}
+        className="p-2 rounded-md bg-gray-700 text-white hover:bg-gray-600"
+      >
+        <FolderIcon className="h-5 w-5" />
+      </button>
+    </div>
+    <div className="flex items-center gap-2">
+      <input
+        type="checkbox"
+        checked={isLightWallpaperEnabled}
+        onChange={(e) => handleWallpaperChange("isWallpaperEnabled", e.target.checked, "light")}
+        className="h-4 w-4"
+      />
+      <label className="text-sm text-black">Enable Wallpaper</label>
+    </div>
+  </div>
+</div>
+
                     </div>
                   </div>
 
@@ -261,6 +321,44 @@ const Settings = () => {
                           className="w-fit px-2 py-1 border rounded"
                         />
                       </div>
+                      {/* Light Theme Wallpaper */}
+
+{/* Dark Theme Wallpaper */}
+<div>
+  <h3 className="text-lg font-semibold mb-2">Wallpaper (Dark Theme)</h3>
+  <div className="space-y-4">
+    <div className="flex items-center gap-2">
+      <input
+        type="text"
+        value={darkWallpaperImage}
+        onChange={(e) => handleWallpaperChange("wallpaperImage", e.target.value, "dark")}
+        className="w-full rounded-md bg-transparent border border-white/20 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+      />
+      <button
+        onClick={async () => {
+          const filePath = await open({
+            multiple: false,
+            directory: false,
+            filters: [{ name: "Images", extensions: ["jpg", "jpeg", "png", "gif"] }],
+          });
+          if (filePath) handleWallpaperChange("wallpaperImage", filePath as string, "dark");
+        }}
+        className="p-2 rounded-md bg-gray-700 text-white hover:bg-gray-600"
+      >
+        <FolderIcon className="h-5 w-5" />
+      </button>
+    </div>
+    <div className="flex items-center gap-2">
+      <input
+        type="checkbox"
+        checked={isDarkWallpaperEnabled}
+        onChange={(e) => handleWallpaperChange("isWallpaperEnabled", e.target.checked, "dark")}
+        className="h-4 w-4"
+      />
+      <label className="text-sm text-white">Enable Wallpaper</label>
+    </div>
+  </div>
+</div>
                     </div>
                   </div>
 
