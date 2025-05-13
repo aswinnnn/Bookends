@@ -38,19 +38,23 @@ function App() {
 
     isLoggedIn ? navigate("/create") : navigate("/intro");
   }, [isLoggedIn]);
-  const lightw = lightTheme.wallpaperImage;
-  const darkw = darkTheme.wallpaperImage;
 
   return (
     <SelectedProvider>
       <div
-        className={`app-container wallpaper bg-no-repeat bg-center bg-cover ${
-          themeMode === "light"  && lightTheme.isWallpaperEnabled && darkTheme.isWallpaperEnabled ? "bg-[" + lightw + "]" : "bg-[" + darkw + "]"
-        } ${themeMode === "light" ? "bg-bookends-primary" : "bg-bookends-dark-primary"
-        } ${themeMode === "light" ? "text-bookends-text" : "text-bookends-dark-text"
-        } ${themeMode === "light" ? "border-bookends-secondary" : "border-bookends-dark-secondary"
-        } ${themeMode === "light" ? "shadow-light" : "shadow-dark"
-        } ${themeMode === "dark" ? "dark" : "light"}`}>
+        className={`app-container bg-no-repeat bg-center bg-cover ${themeMode === "light" && !lightTheme.isWallpaperEnabled ? "bg-bookends-primary" : darkTheme.isWallpaperEnabled ? "" : "bg-bookends-dark-primary"
+          } ${themeMode === "light" ? "text-bookends-text" : "text-bookends-dark-text"
+          } ${themeMode === "light" ? "border-bookends-secondary" : "border-bookends-dark-secondary"
+          } ${themeMode === "light" ? "shadow-light" : "shadow-dark"
+          } ${themeMode === "dark" ? "dark" : "light"}`}
+        style={{
+          backgroundImage: themeMode === "light" && lightTheme.isWallpaperEnabled
+            ? `url(${lightTheme.wallpaperImage})`
+            : themeMode === "dark" && darkTheme.isWallpaperEnabled
+              ? `url(${darkTheme.wallpaperImage})`
+              : undefined,
+        }}
+      >
         <Routes>
           <Route path="/intro" element={<Intro />} />
           <Route path="/create" element={<Create />} />

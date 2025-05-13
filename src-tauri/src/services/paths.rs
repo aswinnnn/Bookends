@@ -61,3 +61,7 @@ pub fn create_paths() -> Result<()> {
         Ok(())
     }
 }
+
+pub fn wallpaper_path() -> PathBuf {
+    data_path().join("wallpaper.jpg")
+}

@@ -7,7 +7,6 @@ import { Journal } from "../../models/types";
 import { useSelected } from "../../context/SelectedContext";
 import { getMedia } from "../../services/media";
 import { useTheme } from "../../ThemeContext";
-import { set } from "date-fns";
 
 const ITEMS_PER_PAGE = 12; // Number of cards per page
 

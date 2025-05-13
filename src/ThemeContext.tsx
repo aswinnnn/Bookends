@@ -99,7 +99,6 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   // Load the theme and apply CSS variables
   const loadTheme = () => {
     setTemporaryTheme(null); // Clear temporary theme
-    const theme = themeMode === "dark" ? darkTheme : lightTheme;
     updateCSSVariables(lightTheme, darkTheme, themeMode);
     document.documentElement.classList.toggle("dark", themeMode === "dark");
   };

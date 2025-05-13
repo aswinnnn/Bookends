@@ -1,4 +1,3 @@
-import { parse } from "date-fns";
 interface RawJournal {
     id: string;
     title: string;
@@ -85,43 +84,43 @@ class Journal implements Journal {
 }
 
 
-interface Media {
-  journalId: string;
-  customEnabled: boolean;
-  backgroundImage: string | null;
-  isBgEnabled: boolean;
-  primaryColor: string | null;
-  secondaryColor: string | null;
-  textColor: string | null;
-  song: string | null;
-  fontTitle: string | null;
-  fontBody: string | null;
-}
+// interface Media {
+//   journalId: string;
+//   customEnabled: boolean;
+//   backgroundImage: string | null;
+//   isBgEnabled: boolean;
+//   primaryColor: string | null;
+//   secondaryColor: string | null;
+//   textColor: string | null;
+//   song: string | null;
+//   fontTitle: string | null;
+//   fontBody: string | null;
+// }
 
-class Media implements Media {
-  constructor(
-    journalId: string,
-    customEnabled: boolean,
-    backgroundImage: string | null,
-    isBgEnabled: boolean,
-    primaryColor: string | null,
-    secondaryColor: string | null,
-    textColor: string | null,
-    song: string | null,
-    fontTitle: string | null,
-    fontBody: string | null
-  ) {
-    this.journalId = journalId;
-    this.customEnabled = customEnabled;
-    this.backgroundImage = backgroundImage;
-    this.isBgEnabled = isBgEnabled;
-    this.primaryColor = primaryColor;
-    this.secondaryColor = secondaryColor;
-    this.textColor = textColor;
-    this.song = song;
-    this.fontTitle = fontTitle;
-    this.fontBody = fontBody;
-  }
-}
+// class Media implements Media {
+//   constructor(
+//     journalId: string,
+//     customEnabled: boolean,
+//     backgroundImage: string | null,
+//     isBgEnabled: boolean,
+//     primaryColor: string | null,
+//     secondaryColor: string | null,
+//     textColor: string | null,
+//     song: string | null,
+//     fontTitle: string | null,
+//     fontBody: string | null
+//   ) {
+//     this.journalId = journalId;
+//     this.customEnabled = customEnabled;
+//     this.backgroundImage = backgroundImage;
+//     this.isBgEnabled = isBgEnabled;
+//     this.primaryColor = primaryColor;
+//     this.secondaryColor = secondaryColor;
+//     this.textColor = textColor;
+//     this.song = song;
+//     this.fontTitle = fontTitle;
+//     this.fontBody = fontBody;
+//   }
+// }
 
 export { RawJournal, Journal , toJournal, toRawJournal};

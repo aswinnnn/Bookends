@@ -1,7 +1,6 @@
 import React from 'react';
 import { useSelected } from '../../context/SelectedContext';
 import { useTheme } from '../../ThemeContext';
-import { select } from 'slate';
 
 interface SwticherProps {
   setJournalId: React.Dispatch<React.SetStateAction<string>>
