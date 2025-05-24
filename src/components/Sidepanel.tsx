@@ -45,7 +45,7 @@ const Sidepanel = () => {
       {/* Glassmorphic Toggle Button */}
       <button
         ref={toggleButtonRef}
-        className={`fixed top-[40px] z-50 flex items-center justify-center h-12 w-12 rounded-full shadow-lg transition-all duration-500 ease-in-out ${
+        className={`fixed top-[40px] z-50 flex items-center justify-center h-12 w-12 rounded-full transition-all duration-500 ease-in-out ${
           isOpen ? "left-[70%] md:left-[240px] lg:left-[300px]" : "left-2"
         }`}
         style={{

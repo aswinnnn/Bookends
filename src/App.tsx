@@ -42,8 +42,8 @@ function App() {
   return (
     <SelectedProvider>
       <div
-        className={`app-container bg-no-repeat bg-center bg-cover ${themeMode === "light" && !lightTheme.isWallpaperEnabled ? "bg-bookends-primary" : darkTheme.isWallpaperEnabled ? "" : "bg-bookends-dark-primary"
-          } ${themeMode === "light" ? "text-bookends-text" : "text-bookends-dark-text"
+        className={`app-container bg-no-repeat bg-center bg-cover ${themeMode === "light" && !lightTheme.isWallpaperEnabled ? "bg-bookends-primary" : "bg-bookends-dark-primary"}
+          ${themeMode === "dark" && !darkTheme.isWallpaperEnabled ? "bg-bookends-dark-primary" : "bg-bookends-primary"} ${themeMode === "light" ? "text-bookends-text" : "text-bookends-dark-text"
           } ${themeMode === "light" ? "border-bookends-secondary" : "border-bookends-dark-secondary"
           } ${themeMode === "light" ? "shadow-light" : "shadow-dark"
           } ${themeMode === "dark" ? "dark" : "light"}`}

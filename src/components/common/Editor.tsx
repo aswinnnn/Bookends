@@ -124,7 +124,7 @@ const RichTextEditor: React.FC<EditorProps> = ({ title, tags, journalId, setJour
     <Slate editor={editor} initialValue={initialValue} onChange={onChange}>
       {/* Toolbar */}
       <Toolbar className="flex-wrap z-0 glass-blur bg-gradient-to-br from-white/30 to-white/10 dark:from-black/30 dark:to-black/10 backdrop-blur-md border border-white/20 dark:border-black/20 rounded-lg shadow-md p-2 mb-4">
-        <MarkButton format="bold" Icon={<BoldIcon className="h-4 w-4 md:h-5 md:w-5 " />} />
+        <MarkButton format="bold" Icon={<BoldIcon className="h-4 w-4 md:h-5 md:w-5" />} />
         <MarkButton format="italic" Icon={<ItalicIcon className="h-4 w-4 md:h-5 md:w-5 " />} />
         <MarkButton format="underline" Icon={<UnderlineIcon className="h-4 w-4 md:h-5 md:w-5 " />} />
         <MarkButton format="code" Icon={<CodeBracketIcon className="h-4 w-4 md:h-5 md:w-5 " />} />

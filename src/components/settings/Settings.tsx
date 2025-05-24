@@ -124,7 +124,7 @@ const Settings = () => {
   return (
     <>
       <Sidepanel/>
-      <div className="pt-[30px] min-h-screen bg-transparent backdrop-blur-md text-white dark:text-gray-300 flex flex-col items-center">
+      <div className={`pt-[30px] min-h-screen bg-transparent backdrop-blur-md flex flex-col items-center ${themeMode=="light" ? "text-bookends-text" : "text-bookends-dark-text"}`}>
         <div className="w-full max-w-4xl px-6 py-12">
           {/* Tabs */}
           <div className="glass-blur bg-gradient-to-br from-white/30 to-white/10 dark:from-black/30 dark:to-black/10 backdrop-blur-md border border-white/20 dark:border-black/20 rounded-xl shadow-lg p-4 mb-8">
@@ -224,7 +224,7 @@ const Settings = () => {
         type="text"
         value={lightWallpaperImage}
         onChange={(e) => handleWallpaperChange("wallpaperImage", e.target.value, "light")}
-        className="w-full rounded-md bg-transparent border border-white/20 px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-black/20"
+        className={`w-full rounded-md bg-transparent border border-white/20 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black/20 ${themeMode == "light" ? "text-bookends-text" : "text-bookends-dark-text"}`}
       />
       <button
         onClick={async () => {
@@ -235,7 +235,7 @@ const Settings = () => {
           });
           if (filePath) handleWallpaperChange("wallpaperImage", filePath as string, "light");
         }}
-        className="p-2 rounded-md bg-gray-700 text-white hover:bg-gray-600"
+        className={`p-2 rounded-md ${themeMode == "light" ? "bg-bookends-accent hover:bg-bookends-accent/70":"bg-bookends-dark-accent hover:bg-bookends-dark-accent/70"}`}
       >
         <FolderIcon className="h-5 w-5" />
       </button>
@@ -247,7 +247,7 @@ const Settings = () => {
         onChange={(e) => handleWallpaperChange("isWallpaperEnabled", e.target.checked, "light")}
         className="h-4 w-4"
       />
-      <label className="text-sm text-black">Enable Wallpaper</label>
+      <label className={`${themeMode == "light" ? "text-bookends-text" : "text-bookends-dark-text"} text-sm`}>Enable Wallpaper</label>
     </div>
   </div>
 </div>
@@ -332,7 +332,7 @@ const Settings = () => {
         type="text"
         value={darkWallpaperImage}
         onChange={(e) => handleWallpaperChange("wallpaperImage", e.target.value, "dark")}
-        className="w-full rounded-md bg-transparent border border-white/20 px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white/20"
+        className={`w-full rounded-md bg-transparent border border-white/20 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black/20 ${themeMode == "light" ? "text-bookends-text" : "text-bookends-dark-text"}`}
       />
       <button
         onClick={async () => {
@@ -343,7 +343,7 @@ const Settings = () => {
           });
           if (filePath) handleWallpaperChange("wallpaperImage", filePath as string, "dark");
         }}
-        className="p-2 rounded-md bg-gray-700 text-white hover:bg-gray-600"
+        className={`p-2 rounded-md ${themeMode == "light" ? "bg-bookends-accent hover:bg-bookends-accent/70":"bg-bookends-dark-accent hover:bg-bookends-dark-accent/70"}`}
       >
         <FolderIcon className="h-5 w-5" />
       </button>

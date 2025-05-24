@@ -31,7 +31,7 @@ export const Button = React.forwardRef<HTMLSpanElement, Omit<
           : active
             ? 'text-black'
             : 'text-gray-300'
-        } ${themeMode === "light" ? "bg-bookends-accent/20":"bg-bookends-dark-accent/20"} ${className}`}
+        } ${themeMode === "light" ? "bg-bookends-accent":"bg-bookends-dark-accent"} ${className}`}
     />
   )}
 );

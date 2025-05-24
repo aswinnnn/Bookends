@@ -276,7 +276,7 @@ const Notebook: React.FC<NotebookProps> = ({ currentDateTime, journalData, journ
           suppressContentEditableWarning
           onInput={handleTagInputChange}
           onKeyDown={handleKeyDown}
-          className={`tag-input flex-grow bg-transparent text-white dark:text-white-200 font-body text-sm md:text-base px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:border-bookends-dark-accent-accent dark:focus:border-bookends-dark-accent-light placeholder-style ${
+          className={`tag-input flex-grow bg-transparent text-bookends-text dark:text-bookends-dark-text font-body text-sm md:text-base px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md focus:outline-none focus:border-bookends-dark-accent-accent dark:focus:border-bookends-dark-accent-light placeholder-style ${
             selectedTags.length > 0 ? "hidden group-hover:block" : ""
           }`}
           data-placeholder="Add a tag..."
